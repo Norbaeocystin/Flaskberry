@@ -1,18 +1,22 @@
-from setuptools import setup
+import setuptools
 
-setup(
-    name='Controlpi',
-    url='https://github.com/jladan/package_demo',
-    author='John Ladan',
-    author_email='jladan@uwaterloo.ca',
-    # Needed to actually package something
-    packages=['controlspi'],
-    # Needed for dependencies
-    install_requires=['pymongo'],
-    version='0.1',
-    # The license can be anything you like
-    license='MIT',
-    description='Python package which needs to be installed on Raspberry Pi to be able to control it with Flaskberry',
-    # We will also need a readme eventually (there will be a warning)
-    # long_description=open('README.txt').read(),
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="controlpi_pkg",
+    version="0.0.1",
+    author="Rastislav_Baran",
+    author_email="baranrastislav@gmail.com",
+    description="Package which needs to be installed on Raspberry Pi 3 to control it via Flaskberry",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )
+
