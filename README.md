@@ -11,3 +11,9 @@ For fully functional this code is divided in two parts:
   
  To download zip to your raspberry https://codeload.github.com/Norbaeocystin/Flaskberry/zip/master
  and unzip master
+ 
+ For web app part main.py in Flaskberry and for control of raspberry pi run control.py in Controlberry
+ 
+ For remote control it is possible to use free tier databases from [mlab](https://mlab.com/) or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+ 
+ Note: in mlab free tier you have only one database my_database
