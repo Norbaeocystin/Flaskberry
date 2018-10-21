@@ -16,4 +16,6 @@ For fully functional this code is divided in two parts:
  
  For remote control it is possible to use free tier databases from [mlab](https://mlab.com/) or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
  
- Note: in mlab free tier you have only one database my_database
+ ## Notes:
+  *in mlab free tier you have only one database my_database
+  *if you want deploy change in main.py app.run(debug=True) to app.run()
