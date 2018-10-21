@@ -38,7 +38,7 @@ def get_temperature(device_file):
     '''
     returns temperature in celsius as float from raw data
     '''
-    lines = read()
+    lines = read(device_file)
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
