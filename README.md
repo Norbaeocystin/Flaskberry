@@ -32,5 +32,12 @@ For fully functional this code is divided in two parts:
      * cd Controlberry
      * sudo nano config.json #write your values
      * screen python3 control.py
-		   
-		   
+ 
+ ## To do list
+ [] users dashboard
+ [] settings dashboard
+ [] compiled versions
+ [] better design
+ [] add more sensors
+ [] add timing options
+ [] notifications (SMS, email, facebook, alerts)
