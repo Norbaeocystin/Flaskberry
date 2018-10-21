@@ -23,8 +23,6 @@ CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Commands = db.Commands
 
-C
-
 def no_arg(func, instances = 1):
 
     '''
