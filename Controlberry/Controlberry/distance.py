@@ -18,11 +18,19 @@ GPIO.setmode(GPIO.BCM)
 GPIO_TRIGGER = SENSORS.get('UltraSoundTrigger')#18
 GPIO_ECHO = SENSORS.get('UltraSoundEcho')#24
 
-#set GPIO direction (IN / OUT)
-GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-GPIO.setup(GPIO_ECHO, GPIO.IN)
+
 
 def distance():
+    '''
+    returns distance in cm
+    '''
+    #GPIO Mode (BOARD / BCM)
+    GPIO.setmode(GPIO.BCM)
+    
+    #set GPIO direction (IN / OUT)
+    GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+    GPIO.setup(GPIO_ECHO, GPIO.IN)
+    
     # set Trigger to HIGH
     GPIO.output(GPIO_TRIGGER, True)
 
