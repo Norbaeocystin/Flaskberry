@@ -2,6 +2,7 @@
 date: Oktober 2018
 Short code to light up LED for defined time
 '''
+import json
 import RPi.GPIO as GPIO
 import time
 
