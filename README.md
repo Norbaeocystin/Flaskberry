@@ -20,3 +20,4 @@ For fully functional this code is divided in two parts:
    * in mlab free tier you have only one database my_database
    * if you want Flask app deploy change in main.py app.run(debug=True) to app.run()
    * [how to install mongodb](https://docs.mongodb.com/manual/installation/)
+   * also it is good to install [TTL index](https://docs.mongodb.com/manual/core/index-ttl/) on Timestamp field in documents in Temperature collection
