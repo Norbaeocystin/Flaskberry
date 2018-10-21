@@ -21,3 +21,16 @@ For fully functional this code is divided in two parts:
    * if you want Flask app deploy change in main.py app.run(debug=True) to app.run()
    * [how to install mongodb](https://docs.mongodb.com/manual/installation/)
    * also it is good to install [TTL index](https://docs.mongodb.com/manual/core/index-ttl/) on Timestamp field in documents in Temperature collection
+   * Example how to set up Controlberry (via raspberry terminal), do it in your preferred folder:
+		   sudo apt-get update
+		   sudo apt-get install screen
+		   pip3 install pymongo
+		   wget https://codeload.github.com/Norbaeocystin/Flaskberry/zip/master
+		   unzip master
+		   cd Flaskberry-master
+		   cd Controlberry
+		   cd Controlberry
+		   sudo nano config.json #write your values
+		   screen python3 control.py
+		   
+		   
