@@ -1,7 +1,8 @@
-
+import json
 import logging
 from pymongo import MongoClient
 import RPi.GPIO as GPIO
+from temperature import run_every_interval
 import time
 from threading import Thread
 
@@ -11,11 +12,16 @@ from led import light
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-#change URI to your need
-client = MongoClient('mongodb//localhost')
-db = client.Raspberry
-Commands = db.Commands
+#loads config file
+json_data= open('config.json').read()
+DATABASE = json.loads(json_data)
+URI = DATABASE.get('URI')
+DB = DATABASE.get('Database')
 
+#setup mongodb
+CONNECTION = MongoClient(URI, connect = False)
+db = CONNECTION.get_database(DB)
+Commands = db.Commands
 
 def no_arg(func, instances = 1):
 
@@ -48,3 +54,5 @@ def watch_collection():
 
 if __name__ == '__main__':
     no_arg(watch_collection)
+    no_arg(run_every_interval)
+
