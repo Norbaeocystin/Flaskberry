@@ -1,16 +1,22 @@
 '''
 date: Oktober 2018
-code to control ultrasound sensor
+code to control ultrasound sensor HC-SR04
 '''
+import json
 import RPi.GPIO as GPIO
 import time
+
+#loads config file
+json_data= open('config.json').read()
+DATA = json.loads(json_data)
+SENSORS = DATA.get(Sensors)
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
 
 #set GPIO Pins
-GPIO_TRIGGER = 18
-GPIO_ECHO = 24
+GPIO_TRIGGER = SENSORS.get('UltraSoundTrigger')#18
+GPIO_ECHO = SENSORS.get('UltraSoundEcho')#24
 
 #set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
