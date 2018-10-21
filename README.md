@@ -19,3 +19,4 @@ For fully functional this code is divided in two parts:
  ## Notes:
    * in mlab free tier you have only one database my_database
    * if you want deploy change in main.py app.run(debug=True) to app.run()
+   * [how to install mongodb](https://docs.mongodb.com/manual/installation/)
