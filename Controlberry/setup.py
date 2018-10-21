@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="controlpi_pkg",
+    name="controlberry_pkg",
     version="0.0.1",
     author="Rastislav_Baran",
     author_email="baranrastislav@gmail.com",
