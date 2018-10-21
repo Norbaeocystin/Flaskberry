@@ -40,7 +40,7 @@ def watch_collection():
     checking collection if there will be inserted document which have LED in it it will light up,
     '''
     logger.info('Starting watching Commands collection')
-    Commands.insert({'Command':0})
+    Commands.insert({'Command':0}) #To create Commands collection
     watcher = Commands.watch()
     for item in watcher:
         doc = item.get('fullDocument')
