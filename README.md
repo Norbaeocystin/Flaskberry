@@ -34,10 +34,10 @@ For fully functional this code is divided in two parts:
      * screen python3 control.py
  
  ## To do list
- [] users dashboard
- [] settings dashboard
- [] compiled versions
- [] better design
- [] add more sensors
- [] add timing options
- [] notifications (SMS, email, facebook, alerts)
+ - [] users dashboard
+ - [] settings dashboard
+ - [] compiled versions
+ - [] better design
+ - [] add more sensors
+ - [] add timing options
+ - [] notifications (SMS, email, facebook, alerts)
