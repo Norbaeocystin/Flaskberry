@@ -20,9 +20,9 @@ def light(interval = 10):
     will light LED for 10 seconds rr for defined time 
     '''
     try:
-      interval = float(interval)
+    	interval = float(interval)
     except ValueError:
-      interval = 10
+    	interval = 10
     GPIO.setup(LED, GPIO.OUT)
     GPIO.output(LED,True)
     time.sleep(interval)
