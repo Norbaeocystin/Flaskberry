@@ -4,27 +4,18 @@ from pymongo import MongoClient
 import RPi.GPIO as GPIO
 import time
 from threading import Thread
+
 from distance import distance
+from led import light
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
+#change URI to your need
 client = MongoClient('mongodb//localhost')
 db = client.Raspberry
 Commands = db.Commands
 
-GPIO.setmode(GPIO.BCM)
-LED = 21
-
-def light(interval = 10):
-    '''
-    will light LED for 10 seconds
-    '''
-    GPIO.setup(LED, GPIO.OUT)
-    GPIO.output(LED,True)
-    time.sleep(interval)
-    GPIO.output(LED,False)
 
 def no_arg(func, instances = 1):
 
