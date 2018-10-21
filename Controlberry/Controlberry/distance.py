@@ -9,7 +9,7 @@ import time
 #loads config file
 json_data= open('config.json').read()
 DATA = json.loads(json_data)
-SENSORS = DATA.get(Sensors)
+SENSORS = DATA.get('Sensors')
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
