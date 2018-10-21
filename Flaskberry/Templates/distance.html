@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+ 	<title>Distance</title>
+    </head>
+<style>
+div {
+    text-align: center;
+    margin: auto;
+    background-color: 	#525564;
+    color:	#FEF6EB;
+    width: 100px;
+}
+nav {
+    text-align: center;
+    margin: auto;
+}
+</style>
+<body>
+    <nav>
+<h3>
+<a href="/">home</a> |
+<a href="/temperature">Distance</a> |
+<a href="/about">About</a></h3>
+    </nav>
+    <div>
+    <p>{{distance}}</p>
+    <form method="post">
+		{{ form.submit }}
+	</form>
+    </div>
+</body>
+</html>
