@@ -23,6 +23,8 @@ CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Commands = db.Commands
 
+C
+
 def no_arg(func, instances = 1):
 
     '''
@@ -38,6 +40,7 @@ def watch_collection():
     checking collection if there will be inserted document which have LED in it it will light up,
     '''
     logger.info('Starting watching Commands collection')
+    Commands.insert({'Command':0})
     watcher = Commands.watch()
     for item in watcher:
         doc = item.get('fullDocument')
