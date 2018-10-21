@@ -5,11 +5,15 @@ Short code to light up LED for defined time
 import RPi.GPIO as GPIO
 import time
 
+#loads config file
+json_data= open('config.json').read()
+DATA = json.loads(json_data)
+SENSORS = DATA.get(Sensors)
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
 #set GPIO Pin
-LED = 21
+LED = SENSORS.get('Led') #21
 
 def light(interval = 10):
     '''
