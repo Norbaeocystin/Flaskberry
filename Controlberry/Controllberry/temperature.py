@@ -1,15 +1,22 @@
 '''
 To control ds18b20 sensors
 '''
-
+import json
 import os
 import glob
 import time
 import datetime
 from pymongo import MongoClient
 
-client = MongoClient('mongodb//localhost')
-db = client.Raspberry
+#loads config file
+json_data= open('config.json').read()
+DATABASE = json.loads(json_data)
+URI = DATABASE.get('URI')
+DB = DATABASE.get('Database')
+
+#setup mongodb
+CONNECTION = MongoClient(URI, connect = False)
+db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 
 os.system('modprobe w1-gpio')
@@ -45,7 +52,7 @@ def get_data():
 	'''
 	for each termosensor returns id and temperature
 	'''
-	return {{item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')} for item in device_folders}
+	return [{item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')} for item in device_folders]
         
 
 def insert_into_database():
@@ -53,8 +60,7 @@ def insert_into_database():
     insert data into database
     '''
     data = get_data()
-    data.update({'Timestamp': datetime.datetime.utcnow()})
-    Temperature.insert(data)
+    Temperature.insert({'Timestamp': datetime.datetime.utcnow(), 'Temperature':data})
 
 def run_every_interval(interval = 1):
     '''
