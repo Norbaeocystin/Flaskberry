@@ -17,7 +17,7 @@ For fully functional this code is divided in two parts:
  For remote control it is possible to use free tier databases from [mlab](https://mlab.com/) or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
  
  ## Notes:
-   * in mlab free tier you have only one database my_database
+   * in mlab free tier you are able to have only one database
    * if you want Flask app deploy change in main.py app.run(debug=True) to app.run()
    * [how to install mongodb](https://docs.mongodb.com/manual/installation/)
    * also it is good to install [TTL index](https://docs.mongodb.com/manual/core/index-ttl/) on Timestamp field in documents in Temperature collection
