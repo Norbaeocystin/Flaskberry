@@ -52,7 +52,7 @@ def get_data():
 	'''
 	for each termosensor returns id and temperature
 	'''
-	return [{item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')} for item in device_folders]
+	return {{item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')} for item in device_folders}
         
 
 def insert_into_database():
