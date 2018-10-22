@@ -2,7 +2,8 @@ import json
 import time
 from flask import Flask, render_template, request, Response, jsonify
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, BooleanField
+from wtforms.validators import DataRequired
 import numpy as np
 
 from pymongo import MongoClient
@@ -23,6 +24,12 @@ CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 Commands = db.Commands
+
+class SettingsForm(FlaskForm):
+    '''
+    Form for searching in database
+    '''
+    submit = SubmitField('Submit')
 
 #functions for temperature
 '''
@@ -58,30 +65,45 @@ class DistanceForm(FlaskForm):
 @app.route('/')
 def get_main():
     '''
-    this renders webpages which is parsing streaming data from
-    sse
+    home
     '''
     return render_template('index.html')
+
+@app.route('/settings', methods=['GET', 'POST'])
+def get_settings():
+    '''
+    settings
+    '''
+    form = SettingsForm()
+    if request.method == 'POST':
+        search =  request.form
+        print(search)
+        return render_template('settings.html', form = form)
+    return render_template('settings.html', form = form)
+
+@app.route('/help')
+def get_help():
+    '''
+    help
+    '''
+    return render_template('help.html')
 
 
 @app.route('/distance', methods=['GET', 'POST'])
 def get_distance_():
     '''
-    this renders webpages which is parsing streaming data from
-    sse
+    distance
     '''
     form = DistanceForm()
     if request.method == 'POST':
         distance = get_distance()
-        print(distance)
         return render_template('distance.html', form = form, distance = distance)
     return render_template('distance.html', form = form, distance = '')
 
 @app.route('/temp')
 def get_temperature():
     '''
-    this renders webpages which is parsing streaming data from
-    sse
+    temperature api
     '''
     temp = get_last_temperature()
     return str(temp).replace("'",'"'), 200
@@ -89,8 +111,7 @@ def get_temperature():
 @app.route('/temperature')
 def get_temp():
     '''
-    this renders webpages which is parsing streaming data from
-    sse
+    temperature
     '''
     temp = get_last_temperature()
     keys = list(temp.keys())
@@ -100,8 +121,7 @@ def get_temp():
 def get_logout():
     
     '''
-    this function is important to be able to
-    logout 
+    http logout
     '''
     
     return "Logout", 401
