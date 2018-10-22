@@ -1,6 +1,6 @@
 import json
 import time
-from flask import Flask, render_template, request, Response, jsonify
+from flask import Flask, render_template, request, Response, json
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
@@ -24,6 +24,7 @@ CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 Commands = db.Commands
+Settings = db.Settings
 
 class SettingsForm(FlaskForm):
     '''
@@ -69,17 +70,23 @@ def get_main():
     '''
     return render_template('index.html')
 
+@app.route('/api/sensor/settings', methods=['GET', "POST"])
+def get_sensor_settings():
+    if request.method == 'POST':
+        Settings.update({'_id':0},request.json,True)
+        return 'Success'
+
 @app.route('/settings', methods=['GET', 'POST'])
 def get_settings():
     '''
     settings
     '''
     form = SettingsForm()
+    keys = list(Temperature.find().sort([('_id', -1)]).sort([('_id',-1)]).limit(1).next().get('Temperature').keys())
+    settingsData = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
     if request.method == 'POST':
-        search =  request.form
-        print(search)
-        return render_template('settings.html', form = form)
-    return render_template('settings.html', form = form)
+        return render_template('settings.html', form = form, keys = keys)
+    return render_template('settings.html', form = form, keys = keys, settingsData = settingsData)
 
 @app.route('/help')
 def get_help():
