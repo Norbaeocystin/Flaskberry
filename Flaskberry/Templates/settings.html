@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8">
+ 	<title>home</title>
+    </head>
+<style>
+nav {
+    text-align: center;
+    margin: auto;
+}
+table {
+    text-align: center;
+    margin: auto;
+}
+div {
+    text-align: center;
+    margin: auto;
+    background-color: 	#525564;
+    color:	#FEF6EB;
+    width: 650px;
+}
+</style>
+<body>
+ <nav>
+<h3>
+<a href="/">Home</a> 
+<a href="/temperature">Temperature</a> |
+<a href="/distance">Distance</a> |
+<a href="/help">Help</a> |
+<a href="/about">About</a>
+</h3>
+</nav>
+    <div>
+    <p>{{distance}}</p>
+    <form id='settings' method="post">
+        <table id='tableSettings'>
+        <tr>
+    <th>Name </th>
+    <th>Pin </th>
+    <th>Delete </th>
+    <th><button type="button" onclick="add();">Add</button> <th>
+      </tr>
+        </table> 
+		{{ form.submit }}
+	</form>
+    </div>
+<script>
+/*
+these javascript code is here because I had problem to setup SSE in flask
+*/
+var settings = document.getElementById("tableSettings");
+function add() {
+    var tr = document.createElement("TR");
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "text");
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    var z = document.createElement("INPUT");
+    z.setAttribute("type", "checkbox");
+    var xTD = document.createElement("TD");
+    var yTD = document.createElement("TD");
+    var zTD = document.createElement("TD");
+    xTD.appendChild(x)
+    yTD.appendChild(y)
+    zTD.appendChild(z)
+    tr.appendChild(xTD)
+    tr.appendChild(yTD)
+    tr.appendChild(zTD)
+    settings.appendChild(tr);
+}
+</script>
+</body>
+</html>
