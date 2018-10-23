@@ -47,11 +47,11 @@ def get_last_temperature():
    
 
 #functions for distance
-def get_distance():
+def get_distance(name):
     '''
     return distance from ultrasound sensor
     '''
-    _id = Commands.insert({"Command":'DISTANCE'})
+    _id = Commands.insert({"Command":'DISTANCE', 'Name':name})
     time.sleep(0.1)
     for i in range(10):
         distance = Commands.find_one({"_id":_id}).get('DISTANCE')
@@ -102,17 +102,24 @@ def get_distance_():
     distance
     '''
     form = DistanceForm()
+    settings = Settings.find_one({"_id":0},{'_id':0})
+    ultraSoundKeys = [(k,v) for k,v in settings.items() if 'UltraSoundName' in k]
     if request.method == 'POST':
-        distance = get_distance()
-        return render_template('distance.html', form = form, distance = distance)
-    return render_template('distance.html', form = form, distance = '')
+        name = list(request.form)[0]
+        distance = get_distance(name)
+        print(distance)
+        return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys)
+    return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys)
 
 @app.route('/temp')
 def get_temperature():
     '''
     temperature api
     '''
-    temp = get_last_temperature()
+    try:
+        temp = get_last_temperature()
+    except:
+        temp = ''
     return str(temp).replace("'",'"'), 200
 
 @app.route('/temperature')
@@ -120,9 +127,13 @@ def get_temp():
     '''
     temperature
     '''
-    temp = get_last_temperature()
-    keys = list(temp.keys())
-    return render_template('temperature.html', TemperatureKeys = keys)
+    settings = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
+    try:
+        temp = get_last_temperature()
+        keys = list(temp.keys())
+    except:
+        keys = []
+    return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
 
 @app.route('/logout')
 def get_logout():
