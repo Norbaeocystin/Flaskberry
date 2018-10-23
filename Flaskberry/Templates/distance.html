@@ -20,14 +20,20 @@ nav {
     <nav>
 <h3>
 <a href="/">home</a> |
+<a href="/settings">Settings</a> |
 <a href="/temperature">Distance</a> |
+<a href="/help">Help</a> |
 <a href="/about">About</a></h3>
     </nav>
-    <div>
-    <p>{{distance}}</p>
+    <nav>
+    {% for item in ultraSoundKeys%}
     <form method="post">
+    <input type="hidden" id="{{item[0]}}" name="{{item[0]}}" value={{item[0]}}>
+        <p id="{{item[0]}}">{{item[1]}}</p>
 		{{ form.submit }}
 	</form>
-    </div>
+    <br>
+    {% endfor %}
+    </nav>
 </body>
 </html>
