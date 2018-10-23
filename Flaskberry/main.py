@@ -107,9 +107,8 @@ def get_distance_():
     if request.method == 'POST':
         name = list(request.form)[0]
         distance = get_distance(name)
-        print(distance)
-        return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys)
-    return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys)
+        return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys, name = str(name), distance = distance)
+    return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys, name = 0, distance = 0)
 
 @app.route('/temp')
 def get_temperature():
