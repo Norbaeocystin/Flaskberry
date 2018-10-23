@@ -2,14 +2,20 @@
 date: Oktober 2018
 Short code to light up LED for defined time
 '''
-import json
 import RPi.GPIO as GPIO
 import time
+from pymongo import MongoClient
 
 #loads config file
 json_data= open('config.json').read()
-DATA = json.loads(json_data)
-SENSORS = DATA.get('Sensors')
+DATABASE = json.loads(json_data)
+URI = DATABASE.get('URI')
+DB = DATABASE.get('Database')
+
+#setup mongodb
+CONNECTION = MongoClient(URI, connect = False)
+db = CONNECTION.get_database(DB)
+Settings = db.Settings.find_one({"_id":0},{'_id':0})
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)

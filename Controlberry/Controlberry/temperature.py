@@ -38,7 +38,7 @@ def get_temperature(device_file):
     '''
     returns temperature in celsius as float from raw data
     '''
-    lines = read(device_file)
+    lines = read()
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
@@ -52,9 +52,7 @@ def get_data():
 	'''
 	for each termosensor returns id and temperature
 	'''
-	temperatures = {}
-	[temperatures.update({item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')}) for item in device_folders]
-	return temperatures
+	return [{item.rsplit('/',1)[-1]:get_temperature(item + '/w1_slave')} for item in device_folders]
         
 
 def insert_into_database():

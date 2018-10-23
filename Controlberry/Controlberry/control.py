@@ -1,3 +1,14 @@
+'''
+how to construct JSON to control Raspberry pi
+
+{'Commands':<string>;
+ 'Duration':<string>;
+ 'Name':<string>;
+}
+        '
+ 
+'''
+
 import json
 import logging
 from pymongo import MongoClient
@@ -38,7 +49,6 @@ def watch_collection():
     checking collection if there will be inserted document which have LED in it it will light up,
     '''
     logger.info('Starting watching Commands collection')
-    Commands.insert({'Command':0}) #To create Commands collection
     watcher = Commands.watch()
     for item in watcher:
         doc = item.get('fullDocument')
@@ -46,10 +56,10 @@ def watch_collection():
             _id = item['fullDocument'].get('_id')
             if doc.get('Command') == 'LED':
                 logger.info('Led command received')
-                light(item['fullDocument'].get('Duration',1))
+                light(doc.get('Name'),doc.get('Distance',0) )
             if doc.get('Command') == 'DISTANCE':
                 logger.info('Distance command received')
-                dist = distance()
+                dist = distance(doc.get('Name'))
                 logger.info('Distance: {} for _id:{}'.format(dist, _id))
                 Commands.update({'_id':_id},{'$set':{'DISTANCE':dist}})
 

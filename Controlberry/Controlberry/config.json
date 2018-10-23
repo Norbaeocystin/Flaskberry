@@ -1,8 +1,7 @@
 {"URI": "",
  "Database":"",
- "Sensors":{
+ "Sensor":{
    	"UltraSoundTrigger":18,
 	 "UltraSoundEcho":24,
 	 "Led":21
- 	}
 }

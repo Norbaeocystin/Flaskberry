@@ -3,34 +3,39 @@ date: Oktober 2018
 code to control ultrasound sensor HC-SR04
 '''
 import json
+from pymongo import MongoClient
 import RPi.GPIO as GPIO
 import time
 
 #loads config file
 json_data= open('config.json').read()
-DATA = json.loads(json_data)
-SENSORS = DATA.get('Sensors')
+DATABASE = json.loads(json_data)
+URI = DATABASE.get('URI')
+DB = DATABASE.get('Database')
+
+#setup mongodb
+CONNECTION = MongoClient(URI, connect = False)
+db = CONNECTION.get_database(DB)
+Settings = db.Settings.find_one({"_id":0},{'_id':0})
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
 
-#set GPIO Pins
-GPIO_TRIGGER = SENSORS.get('UltraSoundTrigger')#18
-GPIO_ECHO = SENSORS.get('UltraSoundEcho')#24
 
-
-
-def distance():
+def get_pins(name):
     '''
-    returns distance in cm
+    UltraSoundName_0_ returns UltraSoundEcho_0_ and UltraSoundTrigger_0_ 
     '''
-    #GPIO Mode (BOARD / BCM)
-    GPIO.setmode(GPIO.BCM)
-    
-    #set GPIO direction (IN / OUT)
+    Echo = name.replace('Name', 'Echo')
+    Trigger = name.replace('Name', 'Trigger')
+    return {'Echo':Settings.get('Echo');'Trigger':Settings.get('Trigger')}
+
+def distance(name):
+    SENSORS = get_pins(name)
+    GPIO_TRIGGER = SENSORS.get('Trigger')#18
+    GPIO_ECHO = SENSORS.get('Echo')#24
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN)
-    
     # set Trigger to HIGH
     GPIO.output(GPIO_TRIGGER, True)
 
