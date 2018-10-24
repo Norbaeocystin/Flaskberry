@@ -41,8 +41,8 @@ def no_arg(func, instances = 1):
     no_arg will start function func which is function without arguments on threads where number of threads equals instances
     '''
 	for i in range(instances):
-    	t = Thread(target=func)
-        t.start()
+		t = Thread(target=func)
+		t.start()
 
 def watch_collection():
     '''
