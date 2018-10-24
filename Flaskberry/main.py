@@ -82,7 +82,10 @@ def get_settings():
     settings
     '''
     form = SettingsForm()
-    keys = list(Temperature.find().sort([('_id', -1)]).sort([('_id',-1)]).limit(1).next().get('Temperature').keys())
+    try:
+        keys = list(Temperature.find().sort([('_id', -1)]).sort([('_id',-1)]).limit(1).next().get('Temperature').keys())
+    except StopIteration:
+        keys = []
     settingsData = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
     if request.method == 'POST':
         return render_template('settings.html', form = form, keys = keys)
