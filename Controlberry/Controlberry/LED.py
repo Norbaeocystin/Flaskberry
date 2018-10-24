@@ -16,7 +16,7 @@ def get_light(name, pin, brightness):
   GPIO.setup(pin, GPIO.OUT)
   p = GPIO.PWN(pin,124)
   running.update({name:p})
-  t = Thread(target = p.start, args = brightness)
+  t = Thread(target = p.start, args = [brightness])
   t.start()
   
 def stop(name):
