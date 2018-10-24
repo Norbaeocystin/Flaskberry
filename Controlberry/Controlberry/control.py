@@ -60,6 +60,7 @@ def watch_collection():
                 if doc.get('State'):
                     name = doc.get('Name')
                     brightness = doc.get('Brightness',100)
+                    logger.info('Brightness set to {}'.format(brightness))
                     get_light(name, brightness)
                 else:
                     name = doc.get('Name')
