@@ -55,3 +55,7 @@ def get_light(name, brightness):
 def get_light_stop(name):
   if running.get(name):
     running.get(name).stop()
+    pin = get_pin(name)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.cleanup()
