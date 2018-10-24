@@ -49,6 +49,6 @@ def get_light(name, brightness):
   t = Thread(target = p.start, args = [brightness])
   t.start()
   
-def stop(name):
+def get_stop(name):
   if running.get(name):
     running.get(name).stop()
