@@ -24,7 +24,7 @@ def get_pins(name):
     '''
     Echo = name.replace('Name', 'Echo')
     Trigger = name.replace('Name', 'Trigger')
-    return {'Echo':Settings.get(Echo);'Trigger':Settings.get(Trigger)}
+    return {'Echo':Settings.get(Echo),'Trigger':Settings.get(Trigger)}
 
 def distance(name):
     #GPIO Mode (BOARD / BCM)
