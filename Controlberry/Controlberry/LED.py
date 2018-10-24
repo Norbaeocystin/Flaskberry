@@ -12,6 +12,7 @@ from pymongo import MongoClient
 import RPi.GPIO as GPIO
 import time
 from threading import Thread
+from functools import partial
 
 #loads config file
 json_data= open('config.json').read()
@@ -47,7 +48,8 @@ def get_light(name, brightness):
   GPIO.setup(pin, GPIO.OUT)
   p = GPIO.PWM(pin,124)
   running.update({name:p})
-  t = Thread(target = p.start, args = [brightness])
+  partial_p = partial(p.start, brightness])
+  t = Thread(target = partial_p)
   t.start()
   
 def get_light_stop(name):
