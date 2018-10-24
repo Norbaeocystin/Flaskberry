@@ -1,5 +1,11 @@
 '''
 For control of LEDs, LED stripes
+
+{'Command':'LED',
+'Brightness':100,
+'Name':<string>,
+'State':<boolean>
+}
 '''
 import json
 from pymongo import MongoClient
