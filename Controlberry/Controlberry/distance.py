@@ -32,8 +32,8 @@ def get_pins(name):
 
 def distance(name):
     SENSORS = get_pins(name)
-    GPIO_TRIGGER = SENSORS.get('Trigger')#18
-    GPIO_ECHO = SENSORS.get('Echo')#24
+    GPIO_TRIGGER = int(SENSORS.get('Trigger'))#18
+    GPIO_ECHO = int(SENSORS.get('Echo'))#24
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN)
     # set Trigger to HIGH
