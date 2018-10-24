@@ -5,9 +5,9 @@ how to construct JSON to control Raspberry pi
  'Duration':<string>;
  'Name':<string>;
  'Brightness':<int>;
- 'State':<boolean>;
+ 'State':<boolean>
 }
-        '
+ 
  
 '''
 
@@ -37,12 +37,13 @@ db = CONNECTION.get_database(DB)
 Commands = db.Commands
 
 def no_arg(func, instances = 1):
-	'''
-    no_arg will start function func which is function without arguments on threads where number of threads equals instances
     '''
-	for i in range(instances):
-		t = Thread(target=func)
-		t.start()
+    no_arg will start function func which is function without arguments on threads 
+    where number of threads equals instances
+    '''
+    for i in range(instances):
+        t = Thread(target=func)
+        t.start()
 
 def watch_collection():
     '''
@@ -51,19 +52,18 @@ def watch_collection():
     logger.info('Starting watching Commands collection')
     watcher = Commands.watch()
     for item in watcher:
-    	doc = item.get('fullDocument')
+        doc = item.get('fullDocument')
         if doc:
-        	_id = doc.get('_id')
+            _id = doc.get('_id')
             if doc.get('Command') == 'LED':
-            	logger.info('Led command received')
+                logger.info('Led command received')
                 if doc.get('State'):
-                	name = doc.get('Name')
-					brightness = doc.get('Brightness',100)
-					get_light(name, brightness)
-				else:
-					name = doc.get('Name')
-					get_light_stop(name)
-					
+                    name = doc.get('Name')
+                    brightness = doc.get('Brightness',100)
+                    get_light(name, brightness)
+                else:
+                    name = doc.get('Name')
+                    get_light_stop(name)
             if doc.get('Command') == 'DISTANCE':
                 logger.info('Distance command received')
                 dist = distance(doc.get('Name'))
@@ -73,4 +73,3 @@ def watch_collection():
 if __name__ == '__main__':
     no_arg(watch_collection)
     no_arg(run_every_interval)
-
