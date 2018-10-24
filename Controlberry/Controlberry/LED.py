@@ -44,7 +44,7 @@ def get_light(name, brightness):
   pin = get_pin(name)
   GPIO.setmode(GPIO.BCM)
   GPIO.setup(pin, GPIO.OUT)
-  p = GPIO.PWN(pin,124)
+  p = GPIO.PWM(pin,124)
   running.update({name:p})
   t = Thread(target = p.start, args = [brightness])
   t.start()
