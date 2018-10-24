@@ -34,7 +34,7 @@ def get_pin(name):
     LedName_0_ returns pin
     '''
     pin = name.replace('Name', 'Pin')
-    return pin
+    return Settings.get(int(pin))
 
 
 def get_light(name, brightness):
