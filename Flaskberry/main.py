@@ -83,13 +83,32 @@ def get_settings():
     '''
     form = SettingsForm()
     try:
-        keys = list(Temperature.find().sort([('_id', -1)]).sort([('_id',-1)]).limit(1).next().get('Temperature').keys())
+        keys = list(Temperature.find().sort([('_id', -1)]).limit(1).next().get('Temperature').keys())
     except StopIteration:
         keys = []
     settingsData = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
     if request.method == 'POST':
         return render_template('settings.html', form = form, keys = keys)
     return render_template('settings.html', form = form, keys = keys, settingsData = settingsData)
+
+@app.route('/led', methods=['GET', 'POST'])
+def get_led():
+    '''
+    led control
+    '''
+    settings = Settings.find_one({"_id":0},{'_id':0})
+    ledKeys = [(k,v) for k,v in settings.items() if 'LedName' in k]
+    return render_template('led.html', LedKeys = ledKeys)
+
+@app.route('/api/led', methods=['GET', "POST"])
+def get_led_api():
+    if request.method == 'POST':
+        data = request.json
+        if data.get('Brightness'):
+            data['Brightness'] = int((int(data['Brightness'])/255)*100)
+        data['Command'] = 'LED'
+        Commands.insert(data)
+        return 'Success'
 
 @app.route('/help')
 def get_help():
