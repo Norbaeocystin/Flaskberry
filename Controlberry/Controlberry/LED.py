@@ -1,7 +1,7 @@
 '''
 For control of LEDs, LED stripes
 '''
-
+from threading import Thread
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
