@@ -18,10 +18,6 @@ CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Settings = db.Settings.find_one({"_id":0},{'_id':0})
 
-#GPIO Mode (BOARD / BCM)
-GPIO.setmode(GPIO.BCM)
-
-
 def get_pins(name):
     '''
     UltraSoundName_0_ returns UltraSoundEcho_0_ and UltraSoundTrigger_0_ 
@@ -31,6 +27,8 @@ def get_pins(name):
     return {'Echo':Settings.get(Echo);'Trigger':Settings.get(Trigger)}
 
 def distance(name):
+    #GPIO Mode (BOARD / BCM)
+    GPIO.setmode(GPIO.BCM)
     SENSORS = get_pins(name)
     GPIO_TRIGGER = int(SENSORS.get('Trigger'))#18
     GPIO_ECHO = int(SENSORS.get('Echo'))#24
