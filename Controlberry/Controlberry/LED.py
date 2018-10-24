@@ -48,7 +48,7 @@ def get_light(name, brightness):
   GPIO.setup(pin, GPIO.OUT)
   p = GPIO.PWM(pin,124)
   running.update({name:p})
-  partial_p = partial(p.start, brightness])
+  partial_p = partial(p.start, brightness)
   t = Thread(target = partial_p)
   t.start()
   
