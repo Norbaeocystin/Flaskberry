@@ -11,6 +11,7 @@ import json
 from pymongo import MongoClient
 import RPi.GPIO as GPIO
 import time
+from threading import Thread
 
 #loads config file
 json_data= open('config.json').read()
