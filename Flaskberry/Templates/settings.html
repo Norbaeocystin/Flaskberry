@@ -124,24 +124,25 @@ var ultraSoundSensors = keys.filter(key => key.includes('Ultra'));
 var USlength = ultraSoundSensors.length/3;
 for (var i = 0; i< USlength; i++){
     var ind = i;
+    var indie = ind + 1;
     var rows = "ultraSoundTable" + ind;
     var tr = document.createElement("TR");
     tr.setAttribute("id", rows);
     var t = document.createElement("INPUT");
     t.setAttribute("type", "text");
     t.setAttribute("class", "tooLong");
-    t.setAttribute("name", "UltraSoundName_" + ind+'_');
-    t.setAttribute("value", data_["UltraSoundName_" + ind+'_']);
+    t.setAttribute("name", "UltraSoundName_" + indie+'_');
+    t.setAttribute("value", data_["UltraSoundName_" + indie +'_']);
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
     x.setAttribute("class", "tooLong")
-    x.setAttribute("name", "UltraSoundEcho_" + ind+'_');
-    x.setAttribute("value", data_["UltraSoundEcho_" + ind+'_']);
+    x.setAttribute("name", "UltraSoundEcho_" + indie +'_');
+    x.setAttribute("value", data_["UltraSoundEcho_" + indie+'_']);
     var y = document.createElement("INPUT");
     y.setAttribute("type", "text");
     y.setAttribute("class", "tooLong")
-    y.setAttribute("name", "UltraSoundTrigger_" + ind+'_');
-    y.setAttribute("value", data_["UltraSoundTrigger_" + ind+'_']);
+    y.setAttribute("name", "UltraSoundTrigger_" + indie +'_');
+    y.setAttribute("value", data_["UltraSoundTrigger_" + indie +'_']);
     var z = document.createElement("BUTTON");
     z.innerHTML = 'Delete';
     z.setAttribute("class", "delete");
@@ -169,18 +170,18 @@ var LedSensors = keys.filter(key => key.includes('Led'));
 var Ledlength = LedSensors.length/2;
 for (var i = 0; i< Ledlength; i++){
     var ind = i;
+    var indie = ind + 1;
     var rows = "ledTable" + ind;
-    console.log(data_["LedName_" + ind +'_'])
     var tr = document.createElement("TR");
     tr.setAttribute("id", rows);
     var x = document.createElement("INPUT");
     x.setAttribute("type", "text");
-    x.setAttribute("name", "LedName_" + ind +'_');
-    x.setAttribute("value", data_["LedName_" + ind +'_']);
+    x.setAttribute("name", "LedName_" + indie +'_');
+    x.setAttribute("value", data_["LedName_" + indie +'_']);
     var y = document.createElement("INPUT");
     y.setAttribute("type", "text");
-    y.setAttribute("name", "LedPin_" + ind+'_');
-    y.setAttribute("value", data_["LedPin_" + ind +'_']);
+    y.setAttribute("name", "LedPin_" + indie + '_');
+    y.setAttribute("value", data_["LedPin_" + indie +'_']);
     var z = document.createElement("BUTTON");
     z.innerHTML = 'Delete';
     z.setAttribute("class", "delete");
