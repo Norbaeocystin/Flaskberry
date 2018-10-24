@@ -43,17 +43,18 @@ def get_light(name, brightness):
   '''
   pin number of GPIO pin, brightness = from 0 to 100
   '''
-  pin = get_pin(name)
-  GPIO.setmode(GPIO.BCM)
-  GPIO.setup(pin, GPIO.OUT)
-  GPIO.cleanup()
-  GPIO.setmode(GPIO.BCM)
-  GPIO.setup(pin, GPIO.OUT)
-  p = GPIO.PWM(pin,124)
-  running.update({name:p})
-  partial_p = partial(p.start, brightness)
-  t = Thread(target = partial_p)
-  t.start()
+  if running.get(name):
+  	p = running.get(name)
+	  p.ChangeDutyCycle(brightness)
+  else:
+	  pin = get_pin(name)
+	  GPIO.setmode(GPIO.BCM)
+	  GPIO.setup(pin, GPIO.OUT)
+	  p = GPIO.PWM(pin,124)
+	  running.update({name:p})
+	  partial_p = partial(p.start, brightness)
+	  t = Thread(target = partial_p)
+	  t.start()
   
 def get_light_stop(name):
   if running.get(name):
