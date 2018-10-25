@@ -16,12 +16,12 @@ DB = DATABASE.get('Database')
 #setup mongodb
 CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
-Settings = db.Settings.find_one({"_id":0},{'_id':0})
 
 def get_pins(name):
     '''
     UltraSoundName_0_ returns UltraSoundEcho_0_ and UltraSoundTrigger_0_ 
     '''
+    Settings = db.Settings.find_one({"_id":0},{'_id':0})
     Echo = name.replace('Name', 'Echo')
     Trigger = name.replace('Name', 'Trigger')
     return {'Echo':Settings.get(Echo),'Trigger':Settings.get(Trigger)}
