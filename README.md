@@ -34,7 +34,7 @@ For fully functional this code is divided in two parts:
  
  ## To do list
  - [ ] users dashboard
- - [ ] settings dashboard
+ - [x] settings dashboard, but still needs imrpo
  - [ ] compiled versions
  - [ ] better design
  - [ ] add more sensors
