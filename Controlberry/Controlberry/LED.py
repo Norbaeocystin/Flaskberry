@@ -23,7 +23,6 @@ DB = DATABASE.get('Database')
 #setup mongodb
 CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
-Settings = db.Settings.find_one({"_id":0},{'_id':0})
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
@@ -35,6 +34,7 @@ def get_pin(name):
     '''
     LedName_0_ returns pin
     '''
+    Settings = db.Settings.find_one({"_id":0},{'_id':0})
     pin = name.replace('Name', 'Pin')
     return int(Settings.get(pin))
 
