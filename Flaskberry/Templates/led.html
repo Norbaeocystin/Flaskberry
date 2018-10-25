@@ -98,7 +98,7 @@ h3 {
     <nav>
     {% for item in LedKeys%}
     <form id='{{item[1]}}' method="post">
-    <label>{{item[1]}}<input type='hidden' name='Name' value='{{item[0]}}'> <input type="number" name='Brightness' value=255 min=0 max=255, placeholder=255></label><label class="switch">
+    <label>{{item[1]}}<input type='hidden' name='Name' value='{{item[0]}}'> <input type="number" name='Brightness' value=255 min="0" max="255", placeholder=255></label><label class="switch">
   <input id='{{item[1]}}' class='checkBox' type="checkbox" value='true' name="State" onclick='sendData(this)'>
   <span class="slider round"></span>
 </label><br>
