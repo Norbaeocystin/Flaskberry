@@ -14,10 +14,17 @@ app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 #loads config file
-json_data= open('config.json').read()
-DATABASE = json.loads(json_data)
-URI = DATABASE.get('URI')
-DB = DATABASE.get('Database')
+try:
+	json_data= open('config.json').read()
+	DATABASE = json.loads(json_data)
+	URI = DATABASE.get('URI')
+	DB = DATABASE.get('Database')
+except FileNotFoundError:
+	URI = input("Please write your MongoDB URI")
+	DB = input("Please write name of your Database")
+	json_data = {'URI':URI, 'DB':DB}
+	with open('config.json', 'w') as f:
+    	json.dump(json_data, f)
 
 #setup mongodb
 CONNECTION = MongoClient(URI, connect = False)
