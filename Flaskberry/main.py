@@ -12,7 +12,7 @@ from pymongo.errors import OperationFailure
 
 import pkg_resources
 
-Config = pkg_resources.resource_filename('flaskberry', 'Config/config.json')
+Config = pkg_resources.resource_filename('Flaskberry', 'Config/config.json')
 
 # define folder for templates delete when deploying on pythonanywhere 
 app = Flask(__name__, template_folder='Templates')
