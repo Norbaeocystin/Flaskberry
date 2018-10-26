@@ -194,6 +194,7 @@ def run():
     DATABASE = json.loads(json_data)
     URI = DATABASE.get('URI')
     DB = DATABASE.get('Database')
+    print(URI)
     if not URI:
         URI = input("Please write your connection MongoDB URI and press Enter: \n")
         DB = input("Please write name of your Database: \n")
