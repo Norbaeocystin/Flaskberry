@@ -29,7 +29,7 @@ if not URI:
     URI = input("Please write your connection MongoDB URI and press Enter: \n")
     DB = input("Please write name of your Database: \n")
     with open(Config, 'w') as outfile:
-        json.dump({'URI':URI,'DB':DB}, outfile)
+        json.dump({'URI':URI,'Database':DB}, outfile)
 
 json_data= open(Config).read()
 DATABASE = json.loads(json_data)
