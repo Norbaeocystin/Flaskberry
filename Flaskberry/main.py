@@ -10,12 +10,16 @@ from pymongo import MongoClient
 from pymongo import DESCENDING
 from pymongo.errors import OperationFailure
 
+import pkg_resources
+
+Config = pkg_resources.resource_filename('flaskberry', 'Config/config.json')
+
 # define folder for templates delete when deploying on pythonanywhere 
 app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 #loads config file
-json_data= open('config.json').read()
+json_data= open(Config).read()
 DATABASE = json.loads(json_data)
 URI = DATABASE.get('URI')
 DB = DATABASE.get('Database')
@@ -34,7 +38,7 @@ if not URI:
     with open('config.json', 'w') as outfile:
         json.dump({'URI':URI,'DB':DB}, outfile)
 
-json_data= open('config.json').read()
+json_data= open(Config).read()
 DATABASE = json.loads(json_data)
 URI = DATABASE.get('URI')
 DB = DATABASE.get('Database')
@@ -190,7 +194,7 @@ def get_logout():
 
 def run():
     #if URI doesnt exits it will write data to config.json
-    json_data= open('config.json').read()
+    json_data= open(Config).read()
     DATABASE = json.loads(json_data)
     URI = DATABASE.get('URI')
     DB = DATABASE.get('Database')
@@ -200,7 +204,7 @@ def run():
         DB = input("Please write name of your Database: \n")
         with open('config.json', 'w') as outfile:
             json.dump({'URI':URI,'DB':DB}, outfile)
-    json_data= open('config.json').read()
+    json_data= open(Config).read()
     DATABASE = json.loads(json_data)
     URI = DATABASE.get('URI')
     DB = DATABASE.get('Database')
