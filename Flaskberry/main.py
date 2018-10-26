@@ -203,6 +203,8 @@ def run():
     DATABASE = json.loads(json_data)
     URI = DATABASE.get('URI')
     DB = DATABASE.get('Database')
+    CONNECTION = MongoClient(URI, connect = False)
+    db = CONNECTION.get_database(DB)
     #will capp collections to prevent from collecting to much data
     for item in ['Settings','Commands','Temperature']:
         try:
@@ -213,8 +215,6 @@ def run():
         except OperationFailure:
             pass
     #setup mongodb
-    CONNECTION = MongoClient(URI, connect = False)
-    db = CONNECTION.get_database(DB)
     Temperature = db.Temperature
     Commands = db.Commands
     Settings = db.Settings
