@@ -8,6 +8,7 @@ import numpy as np
 
 from pymongo import MongoClient
 from pymongo import DESCENDING
+from pymongo.errors import OperationFailure
 
 # define folder for templates delete when deploying on pythonanywhere 
 app = Flask(__name__, template_folder='Templates')
@@ -25,6 +26,15 @@ db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 Commands = db.Commands
 Settings = db.Settings
+
+for item in ['Settings','Commands','Temperature']:
+    try:
+        if not db.command('collstats',item).get('capped', False):
+            print('Not capped')
+            db.command({"convertToCapped": item, "size": 10000000});
+            print('{} changed to capped collection'.format(item))
+    except OperationFailure:
+        pass
 
 class SettingsForm(FlaskForm):
     '''
