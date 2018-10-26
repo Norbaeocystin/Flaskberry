@@ -24,13 +24,9 @@ For fully functional this code is divided in two parts:
      * sudo apt-get update
      * sudo apt-get install screen
      * pip3 install pymongo
-     * wget https://codeload.github.com/Norbaeocystin/Flaskberry/zip/master
-     * unzip master
-     * cd Flaskberry-master
-     * cd Controlberry
-     * cd Controlberry
-     * sudo nano config.json #write your values
-     * screen python3 control.py
+     * sudo pip3 install git+git://github.com/Norbaeocystin/Flaskbry.git
+     * write connection MongoDB URI and Database to config.json
+     * run in terminal: flaskberry
  
  ## To do list
  - [ ] users dashboard
