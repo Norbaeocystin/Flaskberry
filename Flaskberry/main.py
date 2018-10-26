@@ -189,6 +189,35 @@ def get_logout():
     return "Logout", 401
 
 def run():
+    #if URI doesnt exits it will write data to config.json
+    json_data= open('config.json').read()
+    DATABASE = json.loads(json_data)
+    URI = DATABASE.get('URI')
+    DB = DATABASE.get('Database')
+    if not URI:
+        URI = input("Please write your connection MongoDB URI and press Enter: \n")
+        DB = input("Please write name of your Database: \n")
+        with open('config.json', 'w') as outfile:
+            json.dump({'URI':URI,'DB':DB}, outfile)
+    json_data= open('config.json').read()
+    DATABASE = json.loads(json_data)
+    URI = DATABASE.get('URI')
+    DB = DATABASE.get('Database')
+    #will capp collections to prevent from collecting to much data
+    for item in ['Settings','Commands','Temperature']:
+        try:
+            if not db.command('collstats',item).get('capped', False):
+                print('Not capped')
+                db.command({"convertToCapped": item, "size": 10000000});
+                print('{} changed to capped collection'.format(item))
+        except OperationFailure:
+            pass
+    #setup mongodb
+    CONNECTION = MongoClient(URI, connect = False)
+    db = CONNECTION.get_database(DB)
+    Temperature = db.Temperature
+    Commands = db.Commands
+    Settings = db.Settings
     app.run(debug = True)
 
 if __name__ == "__main__":
