@@ -14,7 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="",
     packages=setuptools.find_packages(),
-    package_data={'Flaskberry': ['*.html', '*.json', 'Templates/*.html']},
+    package_data={'Flaskberry': ['*.html', 'Config/*.json', 'Templates/*.html']},
     entry_points={'console_scripts':['flaskberry = Flaskberry.main:run']},
     classifiers=[
         "Programming Language :: Python :: 3",
