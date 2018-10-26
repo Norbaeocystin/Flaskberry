@@ -35,6 +35,8 @@ json_data= open(Config).read()
 DATABASE = json.loads(json_data)
 URI = DATABASE.get('URI')
 DB = DATABASE.get('Database')
+CONNECTION = MongoClient(URI, connect = False)
+db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 Commands = db.Commands
 Settings = db.Settings
