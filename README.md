@@ -24,7 +24,7 @@ For fully functional this code is divided in two parts:
      * sudo apt-get update
      * sudo apt-get install screen
      * pip3 install pymongo
-     * sudo pip3 install git+git://github.com/Norbaeocystin/Flaskbry.git
+     * sudo pip3 install git+git://github.com/Norbaeocystin/Flaskberry.git
      * write connection MongoDB URI and Database to config.json
      * run in terminal: flaskberry
  
