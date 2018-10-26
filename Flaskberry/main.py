@@ -1,4 +1,4 @@
-iimport json
+import json
 import time
 from flask import Flask, render_template, request, Response, json
 from flask_wtf import FlaskForm
