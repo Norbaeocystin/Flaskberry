@@ -20,6 +20,9 @@ div {
     color:	#FEF6EB;
     width: 650px;
 }
+option {
+    width: 100px;
+}
 button{
      background-color: #4CAF50; /* Green */
     border: none;
@@ -103,6 +106,20 @@ h3 {
       </tr>
         </table> 
     <button class="add" type="button" onclick="add2();"><h3 class="save"> + </h3></button>
+	</form>
+    </div>
+    <br><br>
+    <h3>Adafruit settings</h3>
+    <div>
+    <form id='AD' method="post">
+        <table id='adafruitTable'>
+        <tr>
+    <th>Name </th>
+    <th>Type</th>
+    <th>Pin</th>
+      </tr>
+        </table> 
+    <button class="add" type="button" onclick="add3();"><h3 class="save"> + </h3></button>
 	</form>
     </div>
     <br><br>
@@ -206,7 +223,71 @@ for (var i = 0; i< Ledlength; i++){
     tr.appendChild(zTD)
     ledTable.appendChild(tr);
 }
-    
+
+var adafruitSensors = keys.filter(key => key.includes('Adafruit'));
+var ADlength = adafruitSensors.length/3;
+for (var i = 0; i< ADlength; i++){
+    var ind = i;
+    var indie = ind + 1;
+    var rows = "adafruitTable" + ind;
+    var tr = document.createElement("TR");
+    tr.setAttribute("id", rows);
+    var t = document.createElement("INPUT");
+    t.setAttribute("type", "text");
+    t.setAttribute("class", "tooLong");
+    t.setAttribute("name", "AdafruitName_" + indie+'_');
+    t.setAttribute("value", data_["AdafruitName_" + indie +'_']);
+    var x = document.createElement("SELECT");
+    var option_1 = document.createElement("OPTION");
+    option_1.setAttribute("value", "AM2302");
+    option_1.setAttribute("id", "AM2302");
+    option_1.innerHTML = "AM2302";
+    var option_2 = document.createElement("OPTION");
+    option_2.setAttribute("value", "DHT11");
+    option_2.setAttribute("id", "DHT11");
+    option_2.innerHTML = "DHT11";
+    var option_3 = document.createElement("OPTION");
+    option_3.setAttribute("value", "DHT22");
+    option_3.setAttribute("id", "DHT22");
+    option_3.innerHTML = "DHT22";
+    x.appendChild(option_1)
+    x.appendChild(option_2)
+    x.appendChild(option_3)
+    x.setAttribute("type", "text");
+    x.setAttribute("class", "tooLong")
+    x.setAttribute("id", "adafruitSelect" + indie)
+    x.setAttribute("name", "AdafruitType_" + indie + '_');
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    y.setAttribute("class", "tooLong")
+    y.setAttribute("name", "AdafruitPin_" + indie + '_');
+    y.setAttribute("value", data_["AdafruitPin_" + indie +'_']);
+    var z = document.createElement("BUTTON");
+    z.innerHTML = 'Delete';
+    z.setAttribute("class", "delete");
+    z.setAttribute("type", "button");
+    z.setAttribute("value", rows);
+    // add delete function to button on the right side
+    z.onclick = function() { 
+        var row = document.getElementById(this.value);
+        row.parentNode.removeChild(row);}; 
+    var tTD = document.createElement("TD");
+    var xTD = document.createElement("TD");
+    var yTD = document.createElement("TD");
+    var zTD = document.createElement("TD");
+    tTD.appendChild(t)
+    xTD.appendChild(x)
+    yTD.appendChild(y)
+    zTD.appendChild(z)
+    tr.appendChild(tTD)
+    tr.appendChild(xTD)
+    tr.appendChild(yTD)
+    tr.appendChild(zTD)
+    var select = data_["AdafruitType_" + indie +'_']
+    var numbers = {"DHT22" :2,"DHT11":1, "AM2302":0}
+    x.selectedIndex = numbers[select];
+    adafruitTable.appendChild(tr);
+}
 function add() {
     // ledTable is added to have unique ids
     var ind = ledTable.rows.length;
@@ -280,6 +361,62 @@ function add2() {
     tr.appendChild(zTD)
     ultraSoundTable.appendChild(tr);
 }
+function add3() {
+    // ultraSoundTable is added to have unique ids
+    var ind = adafruitTable.rows.length;
+    var rows = "adafruitTable" + ultraSoundTable.rows.length;
+    var tr = document.createElement("TR");
+    tr.setAttribute("id", rows);
+    var t = document.createElement("INPUT");
+    t.setAttribute("type", "text");
+    t.setAttribute("class", "tooLong");
+    t.setAttribute("name", "AdafruitName_" + ind + '_');
+    var x = document.createElement("SELECT");
+    var option_1 = document.createElement("OPTION");
+    option_1.setAttribute("value", "AM2302");
+    option_1.setAttribute("id", "AM2302");
+    option_1.innerHTML = "AM2302";
+    var option_2 = document.createElement("OPTION");
+    option_2.setAttribute("value", "DHT11");
+    option_2.setAttribute("id", "DHT11");
+    option_2.innerHTML = "DHT11";
+    var option_3 = document.createElement("OPTION");
+    option_3.setAttribute("value", "DHT22");
+    option_3.setAttribute("id", "DHT22");
+    option_3.innerHTML = "DHT22";
+    x.appendChild(option_1)
+    x.appendChild(option_2)
+    x.appendChild(option_3)
+    x.setAttribute("type", "text");
+    x.setAttribute("class", "tooLong")
+    x.setAttribute("name", "AdafruitType_" + ind + '_');
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    y.setAttribute("class", "tooLong")
+    y.setAttribute("name", "AdafruitPin_" + ind + '_');
+    var z = document.createElement("BUTTON");
+    z.innerHTML = 'Delete';
+    z.setAttribute("class", "delete");
+    z.setAttribute("type", "button");
+    z.setAttribute("value", rows);
+    // add delete function to button on the right side
+    z.onclick = function() { 
+        var row = document.getElementById(this.value);
+        row.parentNode.removeChild(row);}; 
+    var tTD = document.createElement("TD");
+    var xTD = document.createElement("TD");
+    var yTD = document.createElement("TD");
+    var zTD = document.createElement("TD");
+    tTD.appendChild(t)
+    xTD.appendChild(x)
+    yTD.appendChild(y)
+    zTD.appendChild(z)
+    tr.appendChild(tTD)
+    tr.appendChild(xTD)
+    tr.appendChild(yTD)
+    tr.appendChild(zTD)
+    adafruitTable.appendChild(tr);
+}
 function submitForms(){
     var data = {};
     var formDataT = new FormData(document.forms.T);
@@ -293,6 +430,10 @@ function submitForms(){
     var formDataLED = new FormData(document.forms.LED);
     for(var pair of formDataLED.entries()) {
        data[pair[0]] = pair[1] 
+    }
+    var formDataAD = new FormData(document.forms.AD);
+    for(var pair of formDataAD.entries()) {
+    data[pair[0]] = pair[1] 
     }
     console.log(data)
     return data;
