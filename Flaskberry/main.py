@@ -64,7 +64,7 @@ class ExportForm(FlaskForm):
     '''
     Form for searching in database
     '''
-    exportData = SubmitField('Export Data')
+    submit = SubmitField('Export Data')
 
 #functions for temperature
 '''
