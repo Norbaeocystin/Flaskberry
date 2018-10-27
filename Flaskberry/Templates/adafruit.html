@@ -25,6 +25,7 @@ nav {
 <h3>
  <a href="/">Home</a>|
     <a href="/settings">Settings</a> |
+<a href="/adafruit">Adafruit</a> |
 <a href="/distance">Distance</a> |
 <a href="/led">LED</a> |
 <a href="/temperature">Temperature</a> |
@@ -33,7 +34,7 @@ nav {
     </nav>
 <div>Temperatures:<ul><br>
         {% for item in TemperatureKeys%}
-    <li class="keys"><h =  id='{{item + "Name"}}'>{{item}}:</h> <li id='{{item}}'></li></li>
+    <li class="keys"><h =  id='{{item}}'>{{item}}:</h> <li id='{{item}}'></li></li>
         {% endfor %}
     </ul>
 </div>
@@ -52,7 +53,7 @@ var temperatureSensors = keys.filter(key => key.includes('AdafruitName'));
 for (var i = 0; i < temperatureSensors.length; i++) {
     // Iterate over numeric indexes from 0 to 5, as everyone expects.
     key = temperatureSensors[i];
-    var liName = document.getElementById(key  + 'Name');
+    var liName = document.getElementById(key);
     liName.innerHTML = data_[key] + ":"
 }
 var ul = document.getElementById("temperatures");
@@ -65,13 +66,14 @@ function api() {
       for (var i = 0; i < keys.length; i++ )
       {
         var key = keys[i];  
-        var value = res[key];
+        var humidity = res[key].Humidity;
+        var temperature = res[key].Temperature;
         var p = document.getElementById(key);
-        p.innerHTML = value;
+        p.innerHTML = 'Humidity: ' + parseFloat(humidity).toFixed(2) + '; Temperature: ' + parseFloat(temperature).toFixed(2);
       }
     }
   };
-  xhttp.open("GET", "/temp", true)
+  xhttp.open("GET", "/temp_adafruit", true)
   xhttp.send();
 }
 api();
