@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<style>
+li {
+    display: inline;
+    background-color: #525564;
+    color:	#FEF6EB;
+    width: 220px;
+    text-align: center;
+    margin: auto;
+    padding:10px;
+}
+div {
+    text-align: center;
+    margin: auto;
+}
+nav {
+    text-align: center;
+    margin: auto;
+}
+</style>
+<body>
+<body>
+    <nav>
+<h3>
+ <a href="/">Home</a>|
+    <a href="/settings">Settings</a> |
+<a href="/distance">Distance</a> |
+<a href="/led">LED</a> |
+<a href="/temperature">Temperature</a> |
+<a href="/help">Help</a> |
+<a href="/about">About</a></h3>
+    </nav>
+<div>Temperatures:<ul><br>
+        {% for item in TemperatureKeys%}
+    <li class="keys"><h =  id='{{item + "Name"}}'>{{item}}:</h> <li id='{{item}}'></li></li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+<form method = "post">
+ <input type="submit" value="Export Data">
+</form> 
+</div>
+<script>
+/*
+these javascript code is here because I had problem to setup SSE in flask
+*/
+var data_ = JSON.parse('{{settings}}'.split("&#34;").join('"'))
+var keys = Object.keys(data_);
+var temperatureSensors = keys.filter(key => key.includes('28-0'));
+for (var i = 0; i < temperatureSensors.length; i++) {
+    // Iterate over numeric indexes from 0 to 5, as everyone expects.
+    key = temperatureSensors[i];
+    var liName = document.getElementById(key  + 'Name');
+    liName.innerHTML = data_[key] + ":"
+}
+var ul = document.getElementById("temperatures");
+function api() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var res = JSON.parse(this.responseText);
+      keys = Object.keys(res)
+      for (var i = 0; i < keys.length; i++ )
+      {
+        var key = keys[i];  
+        var value = res[key];
+        var p = document.getElementById(key);
+        p.innerHTML = value;
+      }
+    }
+  };
+  xhttp.open("GET", "/temp", true)
+  xhttp.send();
+}
+api();
+var myVar = setInterval(api, 30000);
+</script>
+</body>
