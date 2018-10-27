@@ -73,6 +73,12 @@ def get_last_temperature():
     '''
     return Temperature.find().limit(1).sort([('_id', DESCENDING)]).next().get('Temperature')
 
+def get_last_adafruit():
+    '''
+    returns last temperature from collection
+    '''
+    return Adafruit.find().limit(1).sort([('_id', DESCENDING)]).next().get('Temperature')
+
    
 
 #functions for distance
@@ -198,6 +204,37 @@ def get_temp():
         output = make_response(si.getvalue())
         #output = excel.make_response_from_array(data, 'csv')
         output.headers["Content-Disposition"] = "attachment; filename=TemperaturesDS18B20.csv"
+        output.headers["Content-type"] = "text/csv"
+        flash ('Saving data ... ')
+        return output
+    return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
+
+app.route('/adafruit', methods=['GET', 'POST'])
+def get_adafruit():
+    '''
+    temperature
+    '''
+    settings = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
+    try:
+        temp = get_last_temperature()
+        keys = list(temp.keys())
+    except:
+        keys = []
+    if request.method == 'POST':
+        flash ('Loading data ... ')
+        temperatures = list(Temperature.find({},{'_id':0}))
+        tmp  = [dict(item.get('Temperature').items()|{'Timestamp':item.get('Timestamp')}.items()) for item in temperatures]
+        df = pandas.DataFrame(tmp)
+        string = df.to_string(index=False)
+        strings = string.split('\n')
+        data = "\n".join([','.join(item.split()) for item in strings])
+        flash ('Processing data ... ')
+        si = io.StringIO()
+        cw = csv.writer(si)
+        cw.writerows(data)
+        output = make_response(si.getvalue())
+        #output = excel.make_response_from_array(data, 'csv')
+        output.headers["Content-Disposition"] = "attachment; filename=TemperaturesHumidity.csv"
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
         return output
