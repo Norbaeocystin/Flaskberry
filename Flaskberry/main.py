@@ -59,12 +59,6 @@ class SettingsForm(FlaskForm):
     Form for searching in database
     '''
     submit = SubmitField('Submit')
-    
-class ExportForm(FlaskForm):
-    '''
-    Form for searching in database
-    '''
-    submit = SubmitField('Export Data')
 
 #functions for temperature
 '''
@@ -188,7 +182,6 @@ def get_temp():
         keys = list(temp.keys())
     except:
         keys = []
-    form = ExportForm()
     if request.method == 'POST':
         flash ('Loading data ... ')
         temperatures = list(Temperature.find({},{'_id':0}))
@@ -207,7 +200,7 @@ def get_temp():
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
         return output
-    return render_template('temperature.html', TemperatureKeys = keys, settings = settings, form = form)
+    return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
 
 @app.route('/logout')
 def get_logout():
