@@ -196,7 +196,7 @@ def get_temp():
         cw.writerows(data)
         output = make_response(si.getvalue())
         #output = excel.make_response_from_array(data, 'csv')
-        output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        output.headers["Content-Disposition"] = "attachment; filename=TemperaturesDS18B20.csv"
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
         return output
