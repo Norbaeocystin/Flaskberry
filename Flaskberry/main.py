@@ -43,9 +43,10 @@ db = CONNECTION.get_database(DB)
 Temperature = db.Temperature
 Commands = db.Commands
 Settings = db.Settings
+Adafruit = db.Adafruit
 
 #will capp collections to prevent from collecting to much data
-for item in ['Commands','Temperature']:
+for item in ['Commands','Temperature', 'Adafruit']:
     try:
         if not db.command('collstats',item).get('capped', False):
             print('Not capped')
