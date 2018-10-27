@@ -185,7 +185,7 @@ def get_temp():
     '''
     settings = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
     try:
-        temp = get_last_temperature()
+        temp = get_last_adafruit()
         keys = list(temp.keys())
     except:
         keys = []
@@ -207,7 +207,7 @@ def get_temp():
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
         return output
-    return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
+    return render_template('adafruit.html', TemperatureKeys = keys, settings = settings)
 
 app.route('/adafruit', methods=['GET', 'POST'])
 def get_adafruit():
