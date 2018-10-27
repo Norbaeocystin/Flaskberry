@@ -1,7 +1,11 @@
 import json
 import time
-from flask import Flask, render_template, request, Response, json
+from flask import Flask, render_template, request, Response, json, flash
 from flask_wtf import FlaskForm
+import pandas
+import io
+import csv
+
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
 
@@ -55,6 +59,12 @@ class SettingsForm(FlaskForm):
     Form for searching in database
     '''
     submit = SubmitField('Submit')
+    
+class ExportForm(FlaskForm):
+    '''
+    Form for searching in database
+    '''
+    exportData = SubmitField('Export Data')
 
 #functions for temperature
 '''
@@ -178,7 +188,26 @@ def get_temp():
         keys = list(temp.keys())
     except:
         keys = []
-    return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
+    form = ExportForm()
+    if request.method == 'POST':
+        flash ('Loading data ... ')
+        temperatures = list(Temperature.find({},{'_id':0}))
+        tmp  = [dict(item.get('Temperature').items()|{'Timestamp':item.get('Timestamp')}.items()) for item in temperatures]
+        df = pandas.DataFrame(tmp)
+        string = df.to_string(index=False)
+        strings = string.split('\n')
+        data = "\n".join([','.join(item.split()) for item in strings])
+        flash ('Processing data ... ')
+        si = io.StringIO()
+        cw = csv.writer(si)
+        cw.writerows(data)
+        output = make_response(si.getvalue())
+        #output = excel.make_response_from_array(data, 'csv')
+        output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        output.headers["Content-type"] = "text/csv"
+        flash ('Saving data ... ')
+        return output
+    return render_template('temperature.html', TemperatureKeys = keys, settings = settings, form = form)
 
 @app.route('/logout')
 def get_logout():
