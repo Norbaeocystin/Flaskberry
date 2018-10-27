@@ -45,7 +45,7 @@ Commands = db.Commands
 Settings = db.Settings
 
 #will capp collections to prevent from collecting to much data
-for item in ['Settings','Commands','Temperature']:
+for item in ['Commands','Temperature']:
     try:
         if not db.command('collstats',item).get('capped', False):
             print('Not capped')
