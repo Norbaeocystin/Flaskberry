@@ -177,7 +177,7 @@ def get_temperature():
         temp = ''
     return str(temp).replace("'",'"'), 200
 
-@app.route('/temperature')
+@app.route('/temperature', methods=['GET', 'POST'])
 def get_temp():
     '''
     temperature
