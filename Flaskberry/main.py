@@ -168,7 +168,7 @@ def get_distance_():
     return render_template('distance.html', form = form, ultraSoundKeys = ultraSoundKeys, name = 0, distance = 0)
 
 @app.route('/temp')
-def get_temperature():
+def get_temp():
     '''
     temperature api
     '''
@@ -178,12 +178,23 @@ def get_temperature():
         temp = ''
     return str(temp).replace("'",'"'), 200
 
-@app.route('/temperature', methods=['GET', 'POST'])
-def get_temp():
+@app.route('/temp_adafruit')
+def get_temp_adafruit():
+    '''
+    temperature api
+    '''
+    temp = get_last_adafruit()
+    print(temp)
+    return str(temp).replace("'",'"'), 200
+
+
+@app.route('/adafruit', methods=['GET', 'POST'])
+def get_adafruit():
     '''
     temperature
     '''
-    settings = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
+    settings = json.dumps(db.Settings.find_one({"_id":0},{'_id':0}))
+    Settings = db.Settings.find_one({"_id":0},{'_id':0})
     try:
         temp = get_last_adafruit()
         keys = list(temp.keys())
@@ -191,26 +202,31 @@ def get_temp():
         keys = []
     if request.method == 'POST':
         flash ('Loading data ... ')
-        temperatures = list(Temperature.find({},{'_id':0}))
-        tmp  = [dict(item.get('Temperature').items()|{'Timestamp':item.get('Timestamp')}.items()) for item in temperatures]
+        temperatures = list(Adafruit.find({},{'_id':0}))
+        def transform_adafruit_dict(json):
+            result = {}
+            result['Timestamp'] = json['Timestamp']
+            for item in keys:
+                result[Settings.get(item, item) + ' Humidity'] = json['Temperature'][item]['Humidity']
+                result[Settings.get(item, item) + ' Temperature'] = json['Temperature'][item]['Temperature']
+            return result
+        tmp  = [transform_adafruit_dict(item) for item in temperatures]
         df = pandas.DataFrame(tmp)
-        string = df.to_string(index=False)
-        strings = string.split('\n')
-        data = "\n".join([','.join(item.split()) for item in strings])
         flash ('Processing data ... ')
-        si = io.StringIO()
-        cw = csv.writer(si)
-        cw.writerows(data)
-        output = make_response(si.getvalue())
+        buffer = io.StringIO()
+        df.to_csv(buffer)
+        buffer.seek(0)
+        output = buffer.getvalue()
+        output = make_response(buffer.getvalue())
         #output = excel.make_response_from_array(data, 'csv')
-        output.headers["Content-Disposition"] = "attachment; filename=TemperaturesDS18B20.csv"
+        output.headers["Content-Disposition"] = "attachment; filename=TemperatureHumidity.csv"
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
-        return output
+        return output 
     return render_template('adafruit.html', TemperatureKeys = keys, settings = settings)
 
-app.route('/adafruit', methods=['GET', 'POST'])
-def get_adafruit():
+@app.route('/temperature', methods=['GET', 'POST'])
+def get_temperature():
     '''
     temperature
     '''
@@ -225,19 +241,17 @@ def get_adafruit():
         temperatures = list(Temperature.find({},{'_id':0}))
         tmp  = [dict(item.get('Temperature').items()|{'Timestamp':item.get('Timestamp')}.items()) for item in temperatures]
         df = pandas.DataFrame(tmp)
-        string = df.to_string(index=False)
-        strings = string.split('\n')
-        data = "\n".join([','.join(item.split()) for item in strings])
         flash ('Processing data ... ')
-        si = io.StringIO()
-        cw = csv.writer(si)
-        cw.writerows(data)
-        output = make_response(si.getvalue())
+        buffer = io.StringIO()
+        df.to_csv(buffer)
+        buffer.seek(0)
+        output = buffer.getvalue()
+        output = make_response(buffer.getvalue())
         #output = excel.make_response_from_array(data, 'csv')
-        output.headers["Content-Disposition"] = "attachment; filename=TemperaturesHumidity.csv"
+        output.headers["Content-Disposition"] = "attachment; filename=Temperature.csv"
         output.headers["Content-type"] = "text/csv"
         flash ('Saving data ... ')
-        return output
+        return output 
     return render_template('temperature.html', TemperatureKeys = keys, settings = settings)
 
 @app.route('/logout')
