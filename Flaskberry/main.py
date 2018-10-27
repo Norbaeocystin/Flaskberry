@@ -4,7 +4,6 @@ from flask import Flask, render_template, request, Response, json
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
-import numpy as np
 
 from pymongo import MongoClient
 from pymongo import DESCENDING
