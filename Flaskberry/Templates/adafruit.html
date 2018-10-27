@@ -48,7 +48,7 @@ these javascript code is here because I had problem to setup SSE in flask
 */
 var data_ = JSON.parse('{{settings}}'.split("&#34;").join('"'))
 var keys = Object.keys(data_);
-var temperatureSensors = keys.filter(key => key.includes('28-0'));
+var temperatureSensors = keys.filter(key => key.includes('AdafruitName'));
 for (var i = 0; i < temperatureSensors.length; i++) {
     // Iterate over numeric indexes from 0 to 5, as everyone expects.
     key = temperatureSensors[i];
