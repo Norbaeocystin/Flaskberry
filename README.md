@@ -5,12 +5,10 @@ App is using [Flask](http://flask.pocoo.org/) library and as database engine [Mo
 
 App can be run locally or remotely
 
-For fully functional this code is divided in two parts: 
-  * Flask server
-  * Raspberry controls
-  
- To download zip to your raspberry https://codeload.github.com/Norbaeocystin/Flaskberry/zip/master
- and unzip master
+To use Flaskberry:
+ you need also:
+   * install [MongoDB](https://docs.mongodb.com/manual/installation/) locally or on server
+   * install [Controlberry](https://github.com/Norbaeocystin/Controlberry)
  
  For web app part main.py in Flaskberry and for control of raspberry pi run control.py in Controlberry
  
@@ -25,6 +23,8 @@ For fully functional this code is divided in two parts:
 sudo apt-get update
 sudo apt-get install screen
 sudo pip3 install git+git://github.com/Norbaeocystin/Flaskberry.git
+#or if you have windows
+python -m pip install https://github.com/Norbaeocystin/Flaskberry/archive/master.zip
 #write connection MongoDB URI and Database to config.json
 flaskberry
 ```
