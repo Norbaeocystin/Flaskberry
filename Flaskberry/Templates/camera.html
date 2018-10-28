@@ -144,7 +144,9 @@ function check() {
     console.log(d);
     numbaa = Number(time)*60*1000;
     var timer = setInterval(api, numbaa);
-   }else{clearInterval(timer)}
+   }
+    if(document.getElementById("switcher").checked == false)
+   {clearInterval(timer)}
 }
 </script>
 </body>
