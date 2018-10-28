@@ -24,8 +24,10 @@ sudo apt-get install screen
 sudo pip3 install git+git://github.com/Norbaeocystin/Flaskberry.git
 #or if you have windows
 python -m pip install https://github.com/Norbaeocystin/Flaskberry/archive/master.zip
-#write connection MongoDB URI and Database to config.json
-flaskberry
+#write connection MongoDB URI and Database to config.json, use sudo in linux and administrator cmd in windows
+sudo flaskberry
+#in alternative in windows
+python -m Flaskberry.main
 ```
  
  ## To do list
