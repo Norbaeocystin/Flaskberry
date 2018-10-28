@@ -44,9 +44,11 @@ Temperature = db.Temperature
 Commands = db.Commands
 Settings = db.Settings
 Adafruit = db.Adafruit
+Distance = db.Distance
+Pictures = db.Pictures
 
 #will capp collections to prevent from collecting to much data
-for item in ['Commands','Temperature', 'Adafruit']:
+for item in ['Commands','Temperature', 'Adafruit', 'Distance','Pictures']:
     try:
         if not db.command('collstats',item).get('capped', False):
             print('Not capped')
@@ -89,7 +91,7 @@ def get_distance(name):
     _id = Commands.insert({"Command":'DISTANCE', 'Name':name})
     time.sleep(0.1)
     for i in range(10):
-        distance = Commands.find_one({"_id":_id}).get('DISTANCE')
+        distance = Distance.find_one({"_id":_id}).get('DISTANCE')
         if distance:
             return str(round(distance,2))
         else:
