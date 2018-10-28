@@ -5,8 +5,7 @@ App is using [Flask](http://flask.pocoo.org/) library and as database engine [Mo
 
 App can be run locally or remotely
 
-To use Flaskberry:
- you need also:
+To use Flaskberry you need also:
    * install [MongoDB](https://docs.mongodb.com/manual/installation/) locally or on server
    * install [Controlberry](https://github.com/Norbaeocystin/Controlberry)
  
