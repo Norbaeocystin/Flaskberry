@@ -1,3 +1,4 @@
+from bson.json_util import dumps
 import json
 import time
 from flask import Flask, render_template, request, Response, json, flash, make_response
@@ -96,6 +97,21 @@ def get_distance(name):
             return str(round(distance,2))
         else:
             time.sleep(0.1)
+            
+#functions for distance
+def get_picture():
+    '''
+    return distance from ultrasound sensor
+    '''
+    _id = Commands.insert({"Command":'CAMERA'})
+    time.sleep(1.3)
+    for i in range(40):
+        try:
+            picture = Pictures.find_one({"_id":_id}).get('PICTURE')
+            return dumps(picture).replace('{"$binary": ','').replace("}",'')
+        except AttributeError:
+            pass
+        time.sleep(0.1)
 
 class DistanceForm(FlaskForm):
     submit = SubmitField('Distance')
@@ -106,6 +122,21 @@ def get_main():
     home
     '''
     return render_template('index.html')
+
+@app.route('/api/picture')
+def get_pictures():
+    data = get_picture()
+    if data:
+        return data, 200
+    else:
+        return '',200
+    
+@app.route('/camera', methods=['GET', "POST"])
+def get_camera():
+    if request.method == 'POST':
+        data = get_picture()
+        return render_template('camera.html', picture = data)
+    return render_template('camera.html', picture ='')
 
 @app.route('/api/sensor/settings', methods=['GET', "POST"])
 def get_sensor_settings():
