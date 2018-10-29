@@ -18,7 +18,7 @@ div {
     margin: auto;
     background-color: 	#525564;
     color:	#FEF6EB;
-    width: 650px;
+    width: 850px;
 }
 option {
     width: 100px;
@@ -56,6 +56,10 @@ h3 {
     text-align: center;
     margin: auto;
     }
+.numbersVis{
+    width:60%;
+    }
+    }
 </style>
 <body>
  <nav>
@@ -69,7 +73,6 @@ h3 {
 <a href="/temperature">Temperature</a> |
 <a href="/help">Help</a> |
 <a href="/about">About</a></h3>
-</h3>
 </nav>
     <hr>
     <h3>Temperature settings</h3>
@@ -125,6 +128,23 @@ h3 {
 	</form>
     </div>
     <br><br>
+    <h3>Adafruit visualization</h3>
+    <div>
+    <form id='ADV' method="post">
+        <table id='adafruitTableVisualisaton'>
+        <tr>
+    <th>Name </th>
+    <th>Humidity Target Day</th>
+    <th>Humidity Target Night</th>
+    <th>Temperature Target Day</th>
+    <th>Temperature Target Night</th>
+    <th>Day starts:</th>
+    <th>Day ends:</th>
+      </tr>
+        </table> 
+	</form>
+    </div>
+    <br>
     <h3 class="save"><button class="savebutton" type="button"value="Submit" onclick="sendData()">Save</button></h3>
 <script>
 /*
@@ -132,6 +152,7 @@ these javascript code is here because I had problem to setup SSE in flask
 */
 var ledTable = document.getElementById("ledTable");
 var ultraSoundTable = document.getElementById("ultraSoundTable");
+var adafruitVis = document.getElementById('adafruitTableVisualisaton')
 var data_ = JSON.parse('{{settingsData}}'.split("&#34;").join('"'))
 var keys = Object.keys(data_);
 var temperatureSensors = keys.filter(key => key.includes('28'));
@@ -290,6 +311,97 @@ for (var i = 0; i< ADlength; i++){
     x.selectedIndex = numbers[select];
     adafruitTable.appendChild(tr);
 }
+var adafruitNames = keys.filter(key => key.includes('AdafruitName'));
+for (var i = 0; i< ADlength; i++){
+   var _data_ = data_['Visualization']
+   var name = data_[adafruitNames[i]];
+    var tr = document.createElement("TR");
+    var td_0 = document.createElement("TD");
+    var td_1 = document.createElement("TD");
+    var td_2 = document.createElement("TD");
+    var td_3 = document.createElement("TD");
+    var td_4 = document.createElement("TD");
+    var td_5 = document.createElement("TD");
+    var td_6 = document.createElement("TD");
+    var label = document.createElement("LABEL");
+    console.log(name)
+    label.innerHTML = name;
+    td_0.appendChild(label);
+    humidity_day = document.createElement('INPUT');
+    humidity_day.setAttribute('type','Number');
+    humidity_day.setAttribute('min','0');
+    humidity_day.setAttribute('max','100');
+    humidity_day.setAttribute('step','1');
+    if (typeof _data_[name +'_Humidity_day'] === 'undefined')
+    {humidity_day.setAttribute('value','50');}
+    else{humidity_day.setAttribute('value', _data_[name +'_Humidity_day'])};
+    humidity_day.setAttribute('class','numbersVis');
+    humidity_day.setAttribute('name',name +'_Humidity_day');
+    humidity_night = document.createElement('INPUT');
+    humidity_night.setAttribute('type','Number');
+    humidity_night.setAttribute('min','0');
+    humidity_night.setAttribute('max','100');
+    humidity_night.setAttribute('step','1');
+    if (typeof _data_[name +'_Humidity_night'] === 'undefined')
+    {humidity_night.setAttribute('value','50');}
+    else{humidity_night.setAttribute('value', _data_[name +'_Humidity_night'])};
+    humidity_night.setAttribute('class','numbersVis');
+    humidity_night.setAttribute('name',name +'_Humidity_night');
+    temperature_day = document.createElement('INPUT');
+    temperature_day.setAttribute('type','Number');
+    temperature_day.setAttribute('min','-50');
+    temperature_day.setAttribute('max','100');
+    temperature_day.setAttribute('step','0.1');
+    if (typeof _data_[name +'_Temperature_day'] === 'undefined')
+    {temperature_day.setAttribute('value','25');}
+    else{temperature_day.setAttribute('value', _data_[name +'_Temperature_day'])};
+    temperature_day.setAttribute('class','numbersVis');
+    temperature_day.setAttribute('name',name +'_Temperature_day');
+    temperature_night = document.createElement('INPUT');
+    temperature_night.setAttribute('type','Number');
+    temperature_night.setAttribute('min','-50');
+    temperature_night.setAttribute('max','100');
+    temperature_night.setAttribute('step','0.1');
+    if (typeof _data_[name +'_Temperature_night'] === 'undefined')
+    {temperature_night.setAttribute('value','20');}
+    else{temperature_night.setAttribute('value', _data_[name +'_Temperature_night'])};
+    temperature_night.setAttribute('class','numbersVis');
+    temperature_night.setAttribute('name',name +'_Temperature_night');
+    day = document.createElement('INPUT');
+    day.setAttribute('type','Number');
+    day.setAttribute('min','0');
+    day.setAttribute('max','23');
+    day.setAttribute('step','1');
+    day.setAttribute('class','numbersVis');
+    if (typeof _data_[name +'_day'] === 'undefined')
+    {day.setAttribute('value','8');}
+    else{day.setAttribute('value', _data_[name +'_day'])};
+    day.setAttribute('name',name +'_day')
+    night = document.createElement('INPUT');
+    night.setAttribute('type','Number');
+    night.setAttribute('min','0');
+    night.setAttribute('max','23');
+    night.setAttribute('step','1');
+    if (typeof _data_[name +'_night'] === 'undefined')
+    {night.setAttribute('value','20');}
+    else{night.setAttribute('value', _data_[name +'_night'])};
+    night.setAttribute('class','numbersVis');
+    night.setAttribute('name',name +'_night')
+    td_1.appendChild(humidity_day)
+    td_2.appendChild(humidity_night)
+    td_3.appendChild(temperature_day)
+    td_4.appendChild(temperature_night)
+    td_5.appendChild(day)
+    td_6.appendChild(night)
+    tr.appendChild(td_0);
+    tr.appendChild(td_1);
+    tr.appendChild(td_2);
+    tr.appendChild(td_3);
+    tr.appendChild(td_4);
+    tr.appendChild(td_5);
+    tr.appendChild(td_6);
+    adafruitVis.appendChild(tr);
+}
 function add() {
     // ledTable is added to have unique ids
     var ind = ledTable.rows.length;
@@ -421,6 +533,12 @@ function add3() {
 }
 function submitForms(){
     var data = {};
+    var visualisation = {}
+    var formDataADV = new FormData(document.forms.ADV);
+    for(var pair of formDataADV.entries()) {
+    visualisation[pair[0]] = pair[1] 
+    }
+    data['Visualization'] = visualisation
     var formDataT = new FormData(document.forms.T);
     for(var pair of formDataT.entries()) {
     data[pair[0]] = pair[1] 
@@ -437,7 +555,6 @@ function submitForms(){
     for(var pair of formDataAD.entries()) {
     data[pair[0]] = pair[1] 
     }
-    console.log(data)
     return data;
 }
 

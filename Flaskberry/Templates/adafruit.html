@@ -35,15 +35,16 @@ nav {
     </nav>
 <div>Temperatures:<ul><br>
         {% for item in TemperatureKeys%}
-    <li class="keys"><h =  id='{{item}}'>{{item}}:</h> <li id='{{item}}'></li></li>
+    <li class="keys"><h =  id='{{item}}'>{{item}}</h> <li id='{{item}}'></li></li>
         {% endfor %}
     </ul>
-</div>
+    </div>
 <div>
 <form method = "post">
  <input type="submit" value="Export Data">
 </form> 
 </div>
+    <div id='image'></div>
 <script>
 /*
 these javascript code is here because I had problem to setup SSE in flask
@@ -70,7 +71,7 @@ function api() {
         var humidity = res[key].Humidity;
         var temperature = res[key].Temperature;
         var p = document.getElementById(key);
-        p.innerHTML = 'Humidity: ' + parseFloat(humidity).toFixed(2) + '; Temperature: ' + parseFloat(temperature).toFixed(2);
+        p.innerHTML = data_[key] +' Humidity: '+ parseFloat(humidity).toFixed(2) + '; Temperature: ' + parseFloat(temperature).toFixed(2);
       }
     }
   };
@@ -79,5 +80,33 @@ function api() {
 }
 api();
 var myVar = setInterval(api, 30000);
+    
+function get_image(key) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var res = this.responseText;
+    var div = document.getElementById('image');
+    var h3 = document.createElement("H3");
+    h3.innerHTML = key;
+    var image_ = document.createElement("IMG");
+    image_.src =  "data:image/png;base64," + res;
+    div.appendChild(h3);
+    div.appendChild(image_);
+    }
+  };
+  xhttp.open("GET", "/api/graphs?key=" +key, true)
+  xhttp.send();
+}
+function images(){
+for (var i = 0; i < temperatureSensors.length; i++) {
+    // Iterate over numeric indexes from 0 to 5, as everyone expects.
+    var key_ = temperatureSensors[i];
+    var key = data_[key_];
+    get_image(key);
+} 
+}
+images();
+var my = setInterval(images, 30*60000);
 </script>
 </body>

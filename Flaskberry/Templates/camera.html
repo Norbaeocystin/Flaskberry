@@ -140,9 +140,8 @@ function check() {
    if(document.getElementById("switcher").checked == true)
    {api();
     var time = document.getElementById('minute').value;
-    var d = new Date();
-    console.log(d);
-    numbaa = Number(time)*60*1000;
+    numbaa = (parseInt(time))*60*1000;
+    console.log(numbaa);
     timer = setInterval(api, numbaa);
    }
     if(document.getElementById("switcher").checked == false)
