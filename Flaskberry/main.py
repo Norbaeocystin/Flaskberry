@@ -7,6 +7,10 @@ from flask_wtf import FlaskForm
 import pandas
 import io
 import csv
+try:
+    from .ploting import get_image_as_string_from_key, get_image_as_string
+except:
+    from ploting import get_image_as_string_from_key, get_image_as_string
 
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
@@ -23,7 +27,7 @@ Config = pkg_resources.resource_filename('Flaskberry', 'Config/config.json')
 app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
-logging.basicConfig(level=logging.INFO,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
+logging.basicConfig(level=logging.DEBUG,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
 #loads config file
@@ -108,7 +112,7 @@ def get_distance(name):
 #functions for distance
 def get_picture():
     '''
-    return distance from ultrasound sensor
+    return picture from camera
     '''
     _id = Commands.insert({"Command":'CAMERA'})
     time.sleep(1.3)
@@ -144,6 +148,13 @@ def get_camera():
         data = get_picture()
         return render_template('camera.html', picture = data)
     return render_template('camera.html', picture ='')
+
+@app.route('/api/graphs')
+def get_graphs():
+    key = request.args.get('key')
+    img = get_image_as_string_from_key(key)
+    return img
+    
 
 @app.route('/api/sensor/settings', methods=['GET', "POST"])
 def get_sensor_settings():
