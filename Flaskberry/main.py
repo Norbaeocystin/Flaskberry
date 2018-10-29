@@ -1,5 +1,6 @@
 from bson.json_util import dumps
 import json
+import logging
 import time
 from flask import Flask, render_template, request, Response, json, flash, make_response
 from flask_wtf import FlaskForm
@@ -21,6 +22,9 @@ Config = pkg_resources.resource_filename('Flaskberry', 'Config/config.json')
 # define folder for templates delete when deploying on pythonanywhere 
 app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'you-will-never-guess'
+
+logging.basicConfig(level=logging.INFO,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
+logger = logging.getLogger(__name__)
 
 #loads config file
 json_data= open(Config).read()
@@ -56,8 +60,8 @@ for item in ['Commands','Temperature', 'Adafruit', 'Distance','Pictures']:
                 db.command({"convertToCapped": item, "size": 100000000});
                 logger.info('{} changed to capped collection'.format(item))
             else:
-               db.command({"convertToCapped": item, "size": 30000000});
-               logger.info('{} changed to capped collection'.format(item)) 
+                db.command({"convertToCapped": item, "size": 30000000});
+                logger.info('{} changed to capped collection'.format(item)) 
     except OperationFailure:
         pass
 
