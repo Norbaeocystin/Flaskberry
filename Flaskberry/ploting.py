@@ -168,7 +168,7 @@ def get_key_document(key):
 def get_keys():
     vis_data = Settings.find_one().get('Visualization')
     if vis_data:
-        keys = list({item.split('_')[0] for item in vis_data.keys()})
+        keys = list({item.replace('__Temperature_day','') for item in vis_data.keys()})
         return keys
 
 def get_image_as_string_from_key(key):
