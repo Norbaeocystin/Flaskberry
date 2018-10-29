@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="Flaskberry",
-    install_requires=["pymongo","Flask","Flask-WTF","dnspython","pandas"],
+    install_requires=["pymongo","Flask","Flask-WTF","dnspython","pandas", 'base64', 'matplotlib'],
     version="0.0.1",
     author="Rastislav_Baran",
     author_email="baranrastislav@gmail.com",
