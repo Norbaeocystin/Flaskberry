@@ -315,6 +315,17 @@ def get_logout():
     return "Logout", 401
 
 def run():
+    json_data= open(Config).read()
+    DATABASE = json.loads(json_data)
+    URI = DATABASE.get('URI')
+    DB = DATABASE.get('Database')
+
+    #if URI doesnt exits it will write data to config.json
+    if not URI:
+        URI = input("Please write your connection MongoDB URI and press Enter: \n")
+        DB = input("Please write name of your Database: \n")
+        with open(Config, 'w') as outfile:
+           json.dump({'URI':URI,'Database':DB}, outfile)
     app.run(debug = True)
 
 if __name__ == "__main__":
