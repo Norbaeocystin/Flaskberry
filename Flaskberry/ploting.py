@@ -56,7 +56,7 @@ temperatures = list(Adafruit.find({'Timestamp':{'$gt':delta}},{'_id':0}))
 tmp  = [transform_adafruit_dict(item) for item in temperatures]
 df = pandas.DataFrame(tmp)
 
-def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room Temperature', 
+def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperature', 
                         targets_t = (30,20), targets_h = (60,40), day_start = 10, day_end = 20, 
                        humidity_interval = (0, 100), temperature_interval = (0,40)):
     '''
@@ -66,6 +66,9 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
     or where 
     '''
     #dividing night and day
+    temperatures = list(Adafruit.find({'Timestamp':{'$gt':delta}},{'_id':0}))
+    tmp  = [transform_adafruit_dict(item) for item in temperatures]
+    df = pandas.DataFrame(tmp)
     target_humidity_day,target_humidity_night  = targets_h
     target_temperature_day, target_temperature_night = targets_t
     d = datetime.datetime.now()
