@@ -24,6 +24,18 @@ json_data= open(Config).read()
 DATABASE = json.loads(json_data)
 URI = DATABASE.get('URI')
 DB = DATABASE.get('Database')
+
+#if URI doesnt exits it will write data to config.json
+if not URI:
+    URI = input("Please write your connection MongoDB URI and press Enter: \n")
+    DB = input("Please write name of your Database: \n")
+    with open(Config, 'w') as outfile:
+        json.dump({'URI':URI,'Database':DB}, outfile)
+
+json_data= open(Config).read()
+DATABASE = json.loads(json_data)
+URI = DATABASE.get('URI')
+DB = DATABASE.get('Database')
 CONNECTION = MongoClient(URI, connect = False)
 db = CONNECTION.get_database(DB)
 Adafruit = db.Adafruit
