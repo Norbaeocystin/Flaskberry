@@ -89,10 +89,14 @@ function get_image(key) {
     var div = document.getElementById('image');
     var h3 = document.createElement("H3");
     h3.innerHTML = key;
-    var image_ = document.createElement("IMG");
-    image_.src =  "data:image/png;base64," + res;
-    div.appendChild(h3);
-    div.appendChild(image_);
+    if (typeof document.getElementById('imageGraph') != 'undefined'){
+        var image_ = document.createElement("IMG");
+        image_.setAttribute('id', 'imageGraph');
+        image_.src =  "data:image/png;base64," + res;
+        div.appendChild(h3);
+        div.appendChild(image_);
+    }
+        else {document.getElementById('imageGraph').src = "data:image/png;base64," + res;}
     }
   };
   xhttp.open("GET", "/api/graphs?key=" +key, true)
