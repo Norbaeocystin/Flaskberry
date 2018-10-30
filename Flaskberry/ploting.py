@@ -9,6 +9,7 @@ import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.lines as mlines
+import numpy
 from pymongo import DESCENDING, MongoClient
 import pandas 
 import time
@@ -62,12 +63,15 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
     import numpy
     better to use positioning of target via hour_position = time_.dt.hour
     numpy.argmax(hour_position==18)
+    or where 
     '''
     #dividing night and day
     target_humidity_day,target_humidity_night  = targets_h
     target_temperature_day, target_temperature_night = targets_t
     d = datetime.datetime.now()
     time_ = df['Timestamp'] + datetime.timedelta(hours = utc_zone)
+    hour_position = time_.dt.hour
+    hlength = len(hour_position)
     hours = list(time_.dt.hour.unique()[1:])#ordered list of hours [15,16,17,18,20,21,22,23,0,1,2 ...]
     temperature = df[temperature]
     humidity = df[humidity]
@@ -112,7 +116,7 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
         #case where day start is in hours limit
         if day_start in hours and day_end not in hours:
             logger.debug('case 1')
-            start = (((max_ - min_)/len(hours))*(hours.index(day_start)  + minutes_) )+ min_
+            start = (((max_ - min_)/hlength)*(numpy.argmax(hour_position==day_start)))+ min_
             #add lines
             add_line(item[0], start, max_,item[1], item[1], 'red')
             add_line(item[0], start, start,item[1], item[2], 'red')
@@ -120,21 +124,20 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
         #next case  
         if day_start not in hours and day_end in hours:
             logger.debug('case 2')
-            start = (((max_ - min_)/len(hours))*(hours.index(day_end) + minutes_))+ min_
-            print(start)
+            start = (((max_ - min_)/hlength)*(numpy.argmax(hour_position==day_end)))+ min_
             #add lines
             add_line(item[0], min_, start, item[1], item[1], 'red')
             add_line(item[0], start, start,item[1], item[2], 'red')
             add_line(item[0], start, max_,item[2], item[2], 'red')
         #next two cases
         if day_start in hours and day_end in hours:
-            day_start_index = hours.index(day_start) + minutes_
-            day_end_index = hours.index(day_end) + minutes_
+            day_start_index = numpy.argmax(hour_position==day_start)
+            day_end_index = numpy.argmax(hour_position==day_end)
             #first one
             if day_end_index > day_start_index:
                 logger.debug('case 3')
-                start = (((max_ - min_)/len(hours))*(day_start_index))+ min_
-                end = (((max_ - min_)/len(hours))*(day_end_index))+ min_
+                start = (((max_ - min_)/hlength)*(day_start_index))+ min_
+                end = (((max_ - min_)/hlength)*(day_end_index))+ min_
                 add_line(item[0], min_, start,item[2], item[2], 'red')
                 add_line(item[0], start, start,item[1], item[2], 'red')
                 add_line(item[0], start, end, item[1], item[1], 'red')
@@ -143,8 +146,8 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
             #second one
             if day_end_index < day_start_index:
                 logger.debug('case 4')
-                start = (((max_ - min_)/len(hours))*(day_start_index))+ min_
-                end = (((max_ - min_)/len(hours))*(day_end_index))+ min_
+                start = (((max_ - min_)/hlength)*(day_start_index))+ min_
+                end = (((max_ - min_)/hlength)*(day_end_index))+ min_
                 add_line(item[0], start, max_, item[1], item[1], 'red')
                 add_line(item[0], start, start,item[1], item[2], 'red')
                 add_line(item[0], end, start, item[2], item[2], 'red')
