@@ -89,7 +89,7 @@ function get_image(key) {
     var div = document.getElementById('image');
     var h3 = document.createElement("H3");
     h3.innerHTML = key;
-    if (typeof document.getElementById('imageGraph' + key) == 'undefined'){
+    if (document.getElementById('imageGraph' + key) == null){
         var image_ = document.createElement("IMG");
         image_.setAttribute('id', 'imageGraph' + key);
         image_.src =  "data:image/png;base64," + res;
