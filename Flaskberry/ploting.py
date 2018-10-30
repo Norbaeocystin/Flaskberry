@@ -94,10 +94,10 @@ def get_image_as_string(df = df, humidity = 'Room Humidity', temperature = 'Room
     ax[1].xaxis.set_major_locator(hours_)
     ax[1].set_ylim(temperature_interval)
     ax[1].xaxis.set_major_formatter(h_fmt)
-    ax[1].xaxis.set_major_locator(plt.MaxNLocator(10))
+    ax[1].xaxis.set_major_locator(plt.MaxNLocator(8))
     ax[0].xaxis.set_major_locator(hours_)
     ax[0].xaxis.set_major_formatter(h_fmt)
-    ax[0].xaxis.set_major_locator(plt.MaxNLocator(10))
+    ax[0].xaxis.set_major_locator(plt.MaxNLocator(8))
     def add_line(ax, x1,x2,y1,y2, color ):#,label = 'Target'):
         '''
         adding line to subplot ax
