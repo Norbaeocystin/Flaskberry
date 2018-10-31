@@ -64,9 +64,6 @@ def transform_adafruit_dict(json, keys = keys, settings = settings):
         result[settings.get(item, item) + ' Temperature'] = json['Temperature'][item]['Temperature']
     return result
 
-temperatures = list(Adafruit.find({'Timestamp':{'$gt':delta}},{'_id':0}))
-tmp  = [transform_adafruit_dict(item) for item in temperatures]
-df = pandas.DataFrame(tmp)
 
 def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperature', 
                         targets_t = (30,20), targets_h = (60,40), day_start = 10, day_end = 20, 
@@ -81,6 +78,15 @@ def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperat
     temperatures = list(Adafruit.find({'Timestamp':{'$gt':delta}},{'_id':0}))
     tmp  = [transform_adafruit_dict(item) for item in temperatures]
     df = pandas.DataFrame(tmp)
+    '''
+    to remove outliers
+    for item in [humidity, temperature]:
+        #df[item] = df[numpy.abs(df[item]-df[item].mean()) <= (3*df[item].std())]
+        q = df[item].quantile(0.99)
+        df = df[df[item] < q]
+        q2 = df[item].quantile(0.01)
+        df = df[df[item] > q2]
+    '''
     target_humidity_day,target_humidity_night  = targets_h
     target_temperature_day, target_temperature_night = targets_t
     d = datetime.datetime.now()
