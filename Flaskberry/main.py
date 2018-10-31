@@ -102,7 +102,7 @@ def get_distance(name):
     '''
     _id = Commands.insert({"Command":'DISTANCE', 'Name':name})
     time.sleep(0.1)
-    for i in range(10):
+    for i in range(20):
         distance = Distance.find_one({"_id":_id}).get('DISTANCE')
         if distance:
             return str(round(distance,2))
