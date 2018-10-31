@@ -1,6 +1,8 @@
 '''
 functions to plot stored temperature and humidity data
 '''
+%matplotlib inline
+from IPython.display import display
 import base64
 import io
 import json
@@ -18,26 +20,9 @@ import pkg_resources
 logging.basicConfig(level=logging.DEBUG,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
-Config = pkg_resources.resource_filename('Flaskberry', 'Config/config.json')
-#loads config file
-json_data= open(Config).read()
-DATABASE = json.loads(json_data)
-URI = DATABASE.get('URI')
-DB = DATABASE.get('Database')
-
-#if URI doesnt exits it will write data to config.json
-if not URI:
-    URI = input("Please write your connection MongoDB URI and press Enter: \n")
-    DB = input("Please write name of your Database: \n")
-    with open(Config, 'w') as outfile:
-        json.dump({'URI':URI,'Database':DB}, outfile)
-
-json_data= open(Config).read()
-DATABASE = json.loads(json_data)
-URI = DATABASE.get('URI')
-DB = DATABASE.get('Database')
-CONNECTION = MongoClient(URI, connect = False)
-db = CONNECTION.get_database(DB)
+client = MongoClient("mongodb+srv://oktogen:88prifuk@cluster0-p0odn.mongodb.net/test?retryWrites=true")
+db = client.Raspberry
+Pictures = db.Pictures
 Adafruit = db.Adafruit
 Settings = db.Settings
 
@@ -64,7 +49,6 @@ def transform_adafruit_dict(json, keys = keys, settings = settings):
         result[settings.get(item, item) + ' Temperature'] = json['Temperature'][item]['Temperature']
     return result
 
-
 def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperature', 
                         targets_t = (30,20), targets_h = (60,40), day_start = 10, day_end = 20, 
                        humidity_interval = (0, 100), temperature_interval = (0,40)):
@@ -78,15 +62,12 @@ def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperat
     temperatures = list(Adafruit.find({'Timestamp':{'$gt':delta}},{'_id':0}))
     tmp  = [transform_adafruit_dict(item) for item in temperatures]
     df = pandas.DataFrame(tmp)
-    '''
-    to remove outliers
     for item in [humidity, temperature]:
         #df[item] = df[numpy.abs(df[item]-df[item].mean()) <= (3*df[item].std())]
         q = df[item].quantile(0.99)
         df = df[df[item] < q]
         q2 = df[item].quantile(0.01)
         df = df[df[item] > q2]
-    '''
     target_humidity_day,target_humidity_night  = targets_h
     target_temperature_day, target_temperature_night = targets_t
     d = datetime.datetime.now()
@@ -105,7 +86,7 @@ def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperat
     # Call plot() method on the appropriate object
     ax[0].plot(time_, humidity)
     ax[0].set_title('Humidity')
-    ax[0].set_ylim(humidity_interval)
+    #ax[0].set_ylim(humidity_interval)
     #ax[0].set_yticks([30,40,50,60,70,80])
     '''ax[0].xaxis.set_major_locator(hours_)
     ax[0].xaxis.set_major_formatter(h_fmt)
@@ -113,12 +94,12 @@ def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperat
     ax[1].set_title('Temperature')
     ax[1].plot(time_, temperature)
     ax[1].xaxis.set_major_locator(hours_)
-    ax[1].set_ylim(temperature_interval)
+    #ax[1].set_ylim(temperature_interval)
     ax[1].xaxis.set_major_formatter(h_fmt)
-    ax[1].xaxis.set_major_locator(plt.MaxNLocator(8))
+    ax[1].xaxis.set_major_locator(plt.MaxNLocator(10))
     ax[0].xaxis.set_major_locator(hours_)
     ax[0].xaxis.set_major_formatter(h_fmt)
-    ax[0].xaxis.set_major_locator(plt.MaxNLocator(8))
+    ax[0].xaxis.set_major_locator(plt.MaxNLocator(10))
     def add_line(ax, x1,x2,y1,y2, color ):#,label = 'Target'):
         '''
         adding line to subplot ax
@@ -208,4 +189,3 @@ def get_image_as_string_from_key(key):
         return get_image_as_string(humidity = doc['humidity'], temperature = doc['temperature'], 
                             targets_t = doc['targets_t'], targets_h = doc['targets_h'],
                             day_start = doc['day_start'], day_end = doc['day_end'])
-    
