@@ -103,7 +103,10 @@ def get_distance(name):
     _id = Commands.insert({"Command":'DISTANCE', 'Name':name})
     time.sleep(0.1)
     for i in range(20):
-        distance = Distance.find_one({"_id":_id}).get('DISTANCE')
+        try:
+            distance = Distance.find_one({"_id":_id}).get('DISTANCE')
+        except AttributeError:
+            pass
         if distance:
             return str(round(distance,2))
         else:
