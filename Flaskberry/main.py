@@ -207,6 +207,13 @@ def get_help():
     '''
     return render_template('help.html')
 
+@app.route('/about')
+def get_about():
+    '''
+    about
+    '''
+    return render_template('about.html')
+
 
 @app.route('/distance', methods=['GET', 'POST'])
 def get_distance_():
