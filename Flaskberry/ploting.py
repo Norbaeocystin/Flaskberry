@@ -7,6 +7,8 @@ import io
 import json
 import logging
 import datetime
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.lines as mlines
@@ -15,7 +17,6 @@ from pymongo import DESCENDING, MongoClient
 import pandas 
 import time
 import pkg_resources
-matplotlib.use('Agg')
 logging.basicConfig(level=logging.DEBUG,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
