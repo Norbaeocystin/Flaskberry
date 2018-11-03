@@ -199,6 +199,23 @@ def get_led_api():
         data['Command'] = 'LED'
         Commands.insert(data)
         return 'Success'
+    
+@app.route('/pins', methods=['GET', 'POST'])
+def get_pin():
+    '''
+    pin control
+    '''
+    settings = Settings.find_one({"_id":0},{'_id':0})
+    PinKeys = [(k,v) for k,v in settings.items() if 'PinName' in k]
+    return render_template('pin.html', PinKeys = PinKeys)
+
+@app.route('/api/pin', methods=['GET', "POST"])
+def get_pin_api():
+    if request.method == 'POST':
+        data = request.json
+        data['Command'] = 'PIN'
+        Commands.insert(data)
+        return 'Success'
 
 @app.route('/help')
 def get_help():
