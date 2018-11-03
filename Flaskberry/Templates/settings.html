@@ -88,6 +88,19 @@ h3 {
 	</form>
     </div>
     <br><br>
+    <h3>Pin settings</h3>
+    <div>
+    <form id='PIN' method="post">
+        <table id='pinTable'>
+        <tr>
+    <th>Name </th>
+    <th>Pin </th>
+      </tr>
+        </table> 
+    <button class="add" type="button" onclick="add4();"><h3 class="save"> + </h3></button>
+	</form>
+    </div>
+    <br><br>
     <h3>LED settings</h3>
     <div>
     <form id='LED' method="post">
@@ -151,11 +164,15 @@ h3 {
 /*
 these javascript code is here because I had problem to setup SSE in flask
 */
+//firstly define tables
+var pinTable = document.getElementById("pinTable");
 var ledTable = document.getElementById("ledTable");
 var ultraSoundTable = document.getElementById("ultraSoundTable");
 var adafruitVis = document.getElementById('adafruitTableVisualisaton')
+//here are data from setting document
 var data_ = JSON.parse('{{settingsData}}'.split("&#34;").join('"'))
 var keys = Object.keys(data_);
+// ds18b20 sensors
 var temperatureSensors = keys.filter(key => key.includes('28'));
 for (var i = 0; i < temperatureSensors.length; i++) {
     // Iterate over numeric indexes from 0 to 5, as everyone expects.
@@ -165,6 +182,7 @@ for (var i = 0; i < temperatureSensors.length; i++) {
     inputName.setAttribute('value',data_[key])
     }
 }
+//parsing ultra sound sensors data
 var ultraSoundSensors = keys.filter(key => key.includes('Ultra'));
 var USlength = ultraSoundSensors.length/3;
 for (var i = 0; i< USlength; i++){
@@ -211,6 +229,7 @@ for (var i = 0; i< USlength; i++){
     tr.appendChild(zTD)
     ultraSoundTable.appendChild(tr);
 }
+// 'LEDS' in reality pwm data
 var LedSensors = keys.filter(key => key.includes('Led'));
 var Ledlength = LedSensors.length/2;
 for (var i = 0; i< Ledlength; i++){
@@ -247,7 +266,43 @@ for (var i = 0; i< Ledlength; i++){
     tr.appendChild(zTD)
     ledTable.appendChild(tr);
 }
-
+//simple pins
+var Pins = keys.filter(key => key.includes('PinName'));
+for (var i = 0; i< Pins.length; i++){
+    var ind = i;
+    var indie = ind + 1;
+    var rows = "pinTable" + ind;
+    var tr = document.createElement("TR");
+    tr.setAttribute("id", rows);
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "text");
+    x.setAttribute("name", "PinName_" + indie +'_');
+    x.setAttribute("value", data_["PinName_" + indie +'_']);
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    y.setAttribute("name", "PinPin_" + indie + '_');
+    y.setAttribute("value", data_["PinPin_" + indie +'_']);
+    var z = document.createElement("BUTTON");
+    z.innerHTML = 'Delete';
+    z.setAttribute("class", "delete");
+    z.setAttribute("type", "button");
+    z.setAttribute("value", rows);
+    // add delete function to button on the right side
+    z.onclick = function() { 
+        var row = document.getElementById(this.value);
+        row.parentNode.removeChild(row);}; 
+    var xTD = document.createElement("TD");
+    var yTD = document.createElement("TD");
+    var zTD = document.createElement("TD");
+    xTD.appendChild(x)
+    yTD.appendChild(y)
+    zTD.appendChild(z)
+    tr.appendChild(xTD)
+    tr.appendChild(yTD)
+    tr.appendChild(zTD)
+    pinTable.appendChild(tr);
+}
+//adafruit am2302, dht22, dht11 sensors
 var adafruitSensors = keys.filter(key => key.includes('Adafruit'));
 var ADlength = adafruitSensors.length/3;
 for (var i = 0; i< ADlength; i++){
@@ -312,6 +367,7 @@ for (var i = 0; i< ADlength; i++){
     x.selectedIndex = numbers[select];
     adafruitTable.appendChild(tr);
 }
+//visualization settings for adafruit sensors
 var adafruitNames = keys.filter(key => key.includes('AdafruitName'));
 for (var i = 0; i< ADlength; i++){
    var _data_ = data_['Visualization']
@@ -403,10 +459,11 @@ for (var i = 0; i< ADlength; i++){
     tr.appendChild(td_6);
     adafruitVis.appendChild(tr);
 }
+//adding to Led table
 function add() {
     // ledTable is added to have unique ids
     var ind = ledTable.rows.length;
-    var rows = "ledTable" + ultraSoundTable.rows.length;
+    var rows = "ledTable" + ledTable.rows.length;
     var tr = document.createElement("TR");
     tr.setAttribute("id", rows);
     var x = document.createElement("INPUT");
@@ -435,6 +492,7 @@ function add() {
     tr.appendChild(zTD)
     ledTable.appendChild(tr);
 }
+//ads to ultrasound table
 function add2() {
     // ultraSoundTable is added to have unique ids
     var ind = ultraSoundTable.rows.length;
@@ -476,8 +534,9 @@ function add2() {
     tr.appendChild(zTD)
     ultraSoundTable.appendChild(tr);
 }
+//adds to adafruit table
 function add3() {
-    // ultraSoundTable is added to have unique ids
+    // adafruitTable is added to have unique ids
     var ind = adafruitTable.rows.length;
     var rows = "adafruitTable" + ultraSoundTable.rows.length;
     var tr = document.createElement("TR");
@@ -532,6 +591,39 @@ function add3() {
     tr.appendChild(zTD)
     adafruitTable.appendChild(tr);
 }
+//adds to pin table
+function add4() {
+    // pinTable is added to have unique ids
+    var ind = pinTable.rows.length;
+    var rows = "pinTable" + pinTable.rows.length;
+    var tr = document.createElement("TR");
+    tr.setAttribute("id", rows);
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "text");
+    x.setAttribute("name", "PinName_" + ind + '_');
+    var y = document.createElement("INPUT");
+    y.setAttribute("type", "text");
+    y.setAttribute("name", "PinPin_" + ind + '_');
+    var z = document.createElement("BUTTON");
+    z.innerHTML = 'Delete';
+    z.setAttribute("class", "delete");
+    z.setAttribute("type", "button");
+    z.setAttribute("value", rows);
+    // add delete function to button on the right side
+    z.onclick = function() { 
+        var row = document.getElementById(this.value);
+        row.parentNode.removeChild(row);}; 
+    var xTD = document.createElement("TD");
+    var yTD = document.createElement("TD");
+    var zTD = document.createElement("TD");
+    xTD.appendChild(x)
+    yTD.appendChild(y)
+    zTD.appendChild(z)
+    tr.appendChild(xTD)
+    tr.appendChild(yTD)
+    tr.appendChild(zTD)
+    pinTable.appendChild(tr);
+}
 function submitForms(){
     var data = {};
     var visualisation = {}
@@ -542,6 +634,10 @@ function submitForms(){
     data['Visualization'] = visualisation
     var formDataT = new FormData(document.forms.T);
     for(var pair of formDataT.entries()) {
+    data[pair[0]] = pair[1] 
+    }
+    var formDataPIN = new FormData(document.forms.PIN);
+    for(var pair of formDataPIN.entries()) {
     data[pair[0]] = pair[1] 
     }
     var formDataUS = new FormData(document.forms.US);
