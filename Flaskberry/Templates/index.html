@@ -5,8 +5,16 @@
  	<title>home</title>
     </head>
 <style>
+div {
+    text-align: center;
+    margin: auto;
+}
 nav {
     text-align: center;
+    margin: auto;
+}
+ul{
+    width: 600px;
     margin: auto;
 }
 </style>
@@ -19,9 +27,23 @@ nav {
 <a href="/camera">Camera</a> |
 <a href="/distance">Distance</a> |
 <a href="/led">LED</a> |
+<a href="/pins">Pins</a> 
 <a href="/temperature">Temperature</a> |
 <a href="/help">Help</a> |
 <a href="/about">About</a></h3>
     </nav>
+    <div><h3>Flaskberry</h3>
+        <p> Simple web app to control Raspberry Pi via <a href="https://github.com/Norbaeocystin/Controlberry">Controlberry</a></p></div>
+    <br><div><h3>For more info visit <a href="https://github.com/Norbaeocystin/Flaskberry">Flaskberry repository on github</a></h3></div>
+    <br><ul><h3>After <a href='/settings'>setup</a> you are able to:</h3>
+    <li><a href="/adafruit">To see values from Adafruit's sensors AM2302, DHT22, DHT11</a></li>
+    <li><a href="/camera">Take photo from PiCamera</a></li>
+    <li><a href="/camera">Take photos in intervals and store them in database</a></li>
+    <li><a href="/distance">Measure distance from HC-SR04</a></li>
+    <li><a href="/led">Control LEDs or anything else with pulse width modulation</a></li>
+    <li><a href="/pins">Turn on or turn off selected GPIO pins</a></li>
+    <li><a href="/temperature">Check temperatures from DS18B20 sensors</a></li>
+    </ul>
+    <br><div>2018</div>
 </body>
 </html>
