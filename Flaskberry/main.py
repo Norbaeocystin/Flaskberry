@@ -153,7 +153,7 @@ def get_schedule():
 def get_schedule_api():
     if request.method == 'POST':
         Schedule.insert(request.json)
-        return 'Success'
+        return 'Success', 200
     
 @app.route('/api/clear', methods=['GET', "POST"])
 def get_schedule_cleared():
@@ -162,7 +162,8 @@ def get_schedule_cleared():
     '''
     Schedule.drop()
     Commands.insert({'Command':'CLEAR'})
-
+    return 'Success', 200
+    
 @app.route('/api/picture')
 def get_pictures():
     data = get_picture()
