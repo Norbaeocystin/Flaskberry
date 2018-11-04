@@ -272,11 +272,13 @@ function addPin() {
     x.setAttribute("type", "time");
     x.setAttribute("class", "tooshort")
     x.setAttribute("name",  ind + '__Pin__'  +"On");
+    x.setAttribute('value','12:00');
     var y = document.createElement("INPUT");
     y.setAttribute("required", true);
     y.setAttribute("type", "time");
     y.setAttribute("class", "tooshort")
     y.setAttribute("name", ind + '__Pin__'  + "Off");
+    y.setAttribute('value','00:00');
     var z = document.createElement("BUTTON");
     z.innerHTML = 'Delete';
     z.setAttribute("class", "delete");
@@ -320,11 +322,13 @@ function addLed() {
     x.setAttribute("type", "time");
     x.setAttribute("class", "tooshort")
     x.setAttribute("name",  ind + '__Led__'  +"On");
+    x.setAttribute('value','12:00')
     var y = document.createElement("INPUT");
     y.setAttribute("required", true);
     y.setAttribute("type", "time");
     y.setAttribute("class", "tooshort")
     y.setAttribute("name", ind + '__Led__'  + "Off");
+    y.setAttribute('value','00:00')
     var w = document.createElement("INPUT");
     w.setAttribute("required", true);
     w.setAttribute("type", "number");
@@ -353,6 +357,8 @@ function addLed() {
 }
     
 function clearSchedule(){
+    var r = confirm("This will delete all Schedule settings from Flaskberry and Controlberry. Are you sure?");
+    if (r == true) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/clear', true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -361,7 +367,8 @@ function clearSchedule(){
     }
 }
     xhr.send();
-}
+    location.reload();
+    }}
     
 function submitForms(){
     var data = {};
