@@ -26,7 +26,10 @@ Pictures = db.Pictures
 Adafruit = db.Adafruit
 Settings = db.Settings
 
-visualization = Settings.find_one().get('Visualization')
+try:
+    visualization = Settings.find_one().get('Visualization')
+except AttributeError:
+    visualization = {}
 
 utc_zone = time.timezone/-(60*60)
 now = datetime.datetime.now() - datetime.timedelta(hours = utc_zone)

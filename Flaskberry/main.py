@@ -55,6 +55,7 @@ Settings = db.Settings
 Adafruit = db.Adafruit
 Distance = db.Distance
 Pictures = db.Pictures
+Schedule = db.Schedule
 
 #will capp collections to prevent from collecting to much data
 for item in ['Commands','Temperature', 'Adafruit', 'Distance','Pictures']:
@@ -137,6 +138,30 @@ def get_main():
     home
     '''
     return render_template('index.html')
+
+@app.route('/schedule')
+def get_schedule():
+    try:
+        scheduleData = json.dumps(Schedule.find({},{'_id':0}).sort('_id', DESCENDING).next())
+        print(scheduleData)
+    except StopIteration:
+        scheduleData = []
+    settingsData = json.dumps(Settings.find_one({"_id":0},{'_id':0}))
+    return render_template('schedule.html', scheduleData = scheduleData, settingsData = settingsData )
+
+@app.route('/api/schedule', methods=['GET', "POST"])
+def get_schedule_api():
+    if request.method == 'POST':
+        d = Schedule.insert(request.json)
+        print(d)
+        return 'Success'
+    
+@app.route('/api/clear', methods=['GET', "POST"])
+def get_schedule_cleared():
+    '''
+    clear schedule
+    '''
+    Commands.insert({'Command':'CLEAR'})
 
 @app.route('/api/picture')
 def get_pictures():
