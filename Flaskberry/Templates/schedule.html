@@ -402,6 +402,8 @@ function submitForms(){
 }
 
 function sendData(){
+    var r = confirm("Do you want to save your Schedule settings?");
+    if (r == true) {
     var data = submitForms();
     console.log(data)
     var xhr = new XMLHttpRequest();
@@ -413,6 +415,7 @@ function sendData(){
 }
     var jsonData = JSON.stringify(data)
     xhr.send(jsonData);
+}
 }
 /*
 var keys = Object.keys(data)
