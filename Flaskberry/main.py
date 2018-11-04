@@ -160,7 +160,7 @@ def get_schedule_cleared():
     '''
     clear schedule
     '''
-    Schedule.drop()
+    db.Schedule.drop()
     Commands.insert({'Command':'CLEAR'})
     return 'Success', 200
     
