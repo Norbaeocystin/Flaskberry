@@ -405,7 +405,6 @@ function sendData(){
     var r = confirm("Do you want to save your Schedule settings?");
     if (r == true) {
     var data = submitForms();
-    console.log(data)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/schedule', true);
     xhr.setRequestHeader("Content-Type", "application/json");
