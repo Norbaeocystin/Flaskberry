@@ -358,8 +358,6 @@ function addLed() {
 }
     
 function clearSchedule(){
-    var r = confirm("This will delete all Schedule settings from Flaskberry and Controlberry. Are you sure?");
-    if (r == true) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/clear', true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -369,7 +367,7 @@ function clearSchedule(){
 }
     xhr.send();
     location.reload();
-    }}
+}
     
 function submitForms(){
     var data = {};
