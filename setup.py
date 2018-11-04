@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="Flaskberry",
     install_requires=["pymongo","Flask","Flask-WTF","dnspython","pandas", 'pybase64', 'matplotlib'],
-    version="0.0.1",
+    version="0.10.1",
     author="Rastislav_Baran",
     author_email="baranrastislav@gmail.com",
     description="Flask web app to control Raspberry Pi with Controlberry",
