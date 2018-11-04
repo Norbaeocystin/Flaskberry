@@ -1,7 +1,6 @@
 '''
 functions to plot stored temperature and humidity data
 '''
-from IPython.display import display
 import base64
 import io
 import json
