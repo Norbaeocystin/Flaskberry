@@ -36,5 +36,7 @@ python -m Flaskberry.main
  - [ ] compiled versions
  - [ ] better design
  - [ ] add more sensors
- - [ ] add timing options
+ - [x] add timing options
  - [ ] notifications (SMS, email, facebook, alerts)
+ - [ ] I2C
+ - [ ] SPI
