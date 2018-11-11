@@ -1,4 +1,8 @@
 '''
+date: October 2018
+Web app to control sensors, leds, pins and ... on Raspberry Pi.
+Princip is that Flaskberry is sending commands to mongo database and Controlberry is watching database for changes
+
 got some pandas errors needs to solve exporting data into excel
 '''
 from bson.json_util import dumps
@@ -26,7 +30,7 @@ import pkg_resources
 
 Config = pkg_resources.resource_filename('Flaskberry', 'Config/config.json')
 
-# define folder for templates delete when deploying on pythonanywhere 
+# define folder for templates, delete when deploying on pythonanywhere 
 app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 
@@ -46,6 +50,7 @@ if not URI:
     with open(Config, 'w') as outfile:
         json.dump({'URI':URI,'Database':DB}, outfile)
 
+#setting up Collections
 json_data= open(Config).read()
 DATABASE = json.loads(json_data)
 URI = DATABASE.get('URI')
@@ -61,6 +66,7 @@ Pictures = db.Pictures
 Schedule = db.Schedule
 
 #will capp collections to prevent from collecting to much data
+# these can be changed and depends on capacity of your database
 for item in ['Commands','Temperature', 'Adafruit', 'Distance','Pictures']:
     try:
         if not db.command('collstats',item).get('capped', False):
@@ -75,34 +81,26 @@ for item in ['Commands','Temperature', 'Adafruit', 'Distance','Pictures']:
 
 class SettingsForm(FlaskForm):
     '''
-    Form for searching in database
+    Simple submit, not sure this can be also solved by Javascript API
     '''
     submit = SubmitField('Submit')
 
-#functions for temperature
-'''
-def get_temperatures():
-    list1 = [item.get('Temperature') for item in list(Temperature.find().limit(36000).sort([('_id', DESCENDING)]))]
-    return list(np.mean(np.array(list1).reshape(-1, 1200), axis=1))[::-1]'''
-
 def get_last_temperature():
     '''
-    returns last temperature from collection
+    returns last temperature from collection, DS18B20+
     '''
     return Temperature.find().limit(1).sort([('_id', DESCENDING)]).next().get('Temperature')
 
 def get_last_adafruit():
     '''
-    returns last temperature from collection
+    returns last temperature from collection, Adafruit sensors AM2302, DHT11, DHT22
     '''
     return Adafruit.find().limit(1).sort([('_id', DESCENDING)]).next().get('Temperature')
-
-   
 
 #functions for distance
 def get_distance(name):
     '''
-    return distance from ultrasound sensor
+    return distance from ultrasound sensor, HC-SR04
     '''
     _id = Commands.insert({"Command":'DISTANCE', 'Name':name})
     time.sleep(0.1)
@@ -120,7 +118,7 @@ def get_distance(name):
 #functions for distance
 def get_picture():
     '''
-    return picture from camera
+    return picture from Pi Camera
     '''
     _id = Commands.insert({"Command":'CAMERA'})
     time.sleep(1.3)
@@ -144,6 +142,9 @@ def get_main():
 
 @app.route('/schedule')
 def get_schedule():
+    '''
+    schedule - timing functions
+    '''
     try:
         scheduleData = json.dumps(Schedule.find({},{'_id':0}).sort('_id', DESCENDING).next())
         print(scheduleData)
@@ -154,6 +155,9 @@ def get_schedule():
 
 @app.route('/api/schedule', methods=['GET', "POST"])
 def get_schedule_api():
+    '''
+    API address for storing schedule data into database, exactly in collection Schedule
+    '''
     if request.method == 'POST':
         Schedule.insert(request.json)
         return 'Success', 200
@@ -161,7 +165,7 @@ def get_schedule_api():
 @app.route('/api/clear', methods=['GET', "POST"])
 def get_schedule_cleared():
     '''
-    clear schedule
+    API address for clear schedule by dropping Schedule collections and sending command to Controlberry to clear all scheduling tasks
     '''
     db.Schedule.drop()
     Commands.insert({'Command':'CLEAR'})
@@ -169,6 +173,9 @@ def get_schedule_cleared():
     
 @app.route('/api/picture')
 def get_pictures():
+    '''
+    API address for getting picture as string?
+    '''
     data = get_picture()
     if data:
         return data, 200
@@ -177,6 +184,9 @@ def get_pictures():
     
 @app.route('/camera', methods=['GET', "POST"])
 def get_camera():
+    '''
+    Camera
+    '''
     if request.method == 'POST':
         data = get_picture()
         return render_template('camera.html', picture = data)
@@ -184,6 +194,9 @@ def get_camera():
 
 @app.route('/api/graphs')
 def get_graphs():
+    '''
+    API address for getting graph from Adafruit sensors
+    '''
     key = request.args.get('key')
     img = get_image_as_string_from_key(key)
     return img
@@ -191,6 +204,9 @@ def get_graphs():
 
 @app.route('/api/sensor/settings', methods=['GET', "POST"])
 def get_sensor_settings():
+    '''
+    API address for storing settings data in Settings collection
+    '''
     if request.method == 'POST':
         Settings.update({'_id':0},request.json,True)
         return 'Success'
@@ -221,6 +237,9 @@ def get_led():
 
 @app.route('/api/led', methods=['GET', "POST"])
 def get_led_api():
+    '''
+    API addresss for pwm function by inserting Command LED into Commands collection
+    '''
     if request.method == 'POST':
         data = request.json
         if data.get('Brightness'):
@@ -240,6 +259,9 @@ def get_pin():
 
 @app.route('/api/pin', methods=['GET', "POST"])
 def get_pin_api():
+    '''
+    API address to On and Off GPIO pins on Raspberry Pi by inserting Command PIN in Commands collection
+    '''
     if request.method == 'POST':
         data = request.json
         data['Command'] = 'PIN'
@@ -249,7 +271,8 @@ def get_pin_api():
 @app.route('/help')
 def get_help():
     '''
-    help
+    help,
+    here needs to be written some notes,anything 
     '''
     return render_template('help.html')
 
