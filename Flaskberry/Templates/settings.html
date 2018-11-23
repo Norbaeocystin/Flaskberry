@@ -216,18 +216,13 @@ for (var i = 0; i< USlength; i++){
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var tTD = document.createElement("TD");
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    tTD.appendChild(t)
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(tTD)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [t,x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     ultraSoundTable.appendChild(tr);
 }
 // 'LEDS' in reality pwm data
@@ -256,15 +251,13 @@ for (var i = 0; i< Ledlength; i++){
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     ledTable.appendChild(tr);
 }
 //simple pins
@@ -292,15 +285,13 @@ for (var i = 0; i< Pins.length; i++){
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     pinTable.appendChild(tr);
 }
 //adafruit am2302, dht22, dht11 sensors
@@ -351,18 +342,13 @@ for (var i = 0; i< ADlength; i++){
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var tTD = document.createElement("TD");
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    tTD.appendChild(t)
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(tTD)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [t,x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     var select = data_["AdafruitType_" + indie +'_']
     var numbers = {"DHT22" :2,"DHT11":1, "AM2302":0}
     x.selectedIndex = numbers[select];
@@ -374,13 +360,6 @@ for (var i = 0; i< ADlength; i++){
    var _data_ = data_['Visualization']
    var name = data_[adafruitNames[i]];
     var tr = document.createElement("TR");
-    var td_0 = document.createElement("TD");
-    var td_1 = document.createElement("TD");
-    var td_2 = document.createElement("TD");
-    var td_3 = document.createElement("TD");
-    var td_4 = document.createElement("TD");
-    var td_5 = document.createElement("TD");
-    var td_6 = document.createElement("TD");
     var label = document.createElement("LABEL");
     console.log(name)
     label.innerHTML = name;
@@ -445,6 +424,13 @@ for (var i = 0; i< ADlength; i++){
     else{night.setAttribute('value', _data_[name +'_night'])};
     night.setAttribute('class','numbersVis');
     night.setAttribute('name',name +'_night')
+    var td_0 = document.createElement("TD");
+    var td_1 = document.createElement("TD");
+    var td_2 = document.createElement("TD");
+    var td_3 = document.createElement("TD");
+    var td_4 = document.createElement("TD");
+    var td_5 = document.createElement("TD");
+    var td_6 = document.createElement("TD");
     td_1.appendChild(humidity_day)
     td_2.appendChild(humidity_night)
     td_3.appendChild(temperature_day)
@@ -458,6 +444,11 @@ for (var i = 0; i< ADlength; i++){
     tr.appendChild(td_4);
     tr.appendChild(td_5);
     tr.appendChild(td_6);
+    var tags = [td_0, td_1, td_2, td_3, td_4, td_5, td_6];
+    for(var j in tags)
+    {
+        tr.appendChild(tags[j])
+    }
     adafruitVis.appendChild(tr);
 }
 //adding to Led table
@@ -482,15 +473,13 @@ function add() {
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     ledTable.appendChild(tr);
 }
 //ads to ultrasound table
@@ -521,18 +510,13 @@ function add2() {
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var tTD = document.createElement("TD");
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    tTD.appendChild(t)
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(tTD)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [t,x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     ultraSoundTable.appendChild(tr);
 }
 //adds to adafruit table
@@ -578,18 +562,13 @@ function add3() {
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var tTD = document.createElement("TD");
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    tTD.appendChild(t)
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(tTD)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [t,x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     adafruitTable.appendChild(tr);
 }
 //adds to pin table
@@ -614,15 +593,13 @@ function add4() {
     z.onclick = function() { 
         var row = document.getElementById(this.value);
         row.parentNode.removeChild(row);}; 
-    var xTD = document.createElement("TD");
-    var yTD = document.createElement("TD");
-    var zTD = document.createElement("TD");
-    xTD.appendChild(x)
-    yTD.appendChild(y)
-    zTD.appendChild(z)
-    tr.appendChild(xTD)
-    tr.appendChild(yTD)
-    tr.appendChild(zTD)
+    var tags = [x,y,z];
+    for(var j in tags)
+    {
+        var td = document.createElement("TD");
+        td.appendChild(tags[j]);
+        tr.appendChild(td)
+    }
     pinTable.appendChild(tr);
 }
 function submitForms(){
