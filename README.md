@@ -40,3 +40,4 @@ python -m Flaskberry.main
  - [ ] notifications (SMS, email, facebook, alerts)
  - [ ] I2C
  - [ ] SPI
+ - [ ] Support for more than one Raspberry Pi
