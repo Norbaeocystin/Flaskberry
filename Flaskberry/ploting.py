@@ -167,6 +167,9 @@ def get_image_as_string(humidity = 'Room Humidity', temperature = 'Room Temperat
     return string.decode()
 
 def get_key_document(key):
+    '''
+    returns dictionary of settings based on key argument
+    '''
     vis_data = Settings.find_one().get('Visualization')
     result = {}
     result['humidity'] = key + ' Humidity'
@@ -178,6 +181,9 @@ def get_key_document(key):
     return result
 
 def get_keys():
+    '''
+    Get keys from Visualization collection
+    '''
     vis_data = Settings.find_one().get('Visualization')
     if vis_data:
         keys = list({item.replace('_Temperature_day','') for item in vis_data.keys() if '_Temperature_day' in item})
@@ -185,6 +191,9 @@ def get_keys():
         return keys
 
 def get_image_as_string_from_key(key):
+    '''
+    return image as string, argument is key in the Visualization collection
+    '''
     if key not in get_keys():
         return ''
     else:
