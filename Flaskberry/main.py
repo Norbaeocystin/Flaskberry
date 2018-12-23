@@ -394,6 +394,9 @@ def get_logout():
     return "Logout", 401
 
 def run():
+    '''
+    run Flask app
+    '''
     app.run(debug = True)
         
 if __name__ == "__main__":
