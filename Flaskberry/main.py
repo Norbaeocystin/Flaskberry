@@ -22,8 +22,7 @@ except:
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
 
-from pymongo import MongoClient
-from pymongo import DESCENDING
+from pymongo import MongoClient, DESCENDING
 from pymongo.errors import OperationFailure, ConfigurationError
 
 import pkg_resources
