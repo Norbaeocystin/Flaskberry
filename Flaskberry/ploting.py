@@ -21,7 +21,7 @@ import pkg_resources
 logging.basicConfig(level=logging.DEBUG,  format = '%(asctime)s %(name)s %(levelname)s %(message)s')
 logger = logging.getLogger(__name__)
 
-client = MongoClient("mongodb+srv://oktogen:88prifuk@cluster0-p0odn.mongodb.net/test?retryWrites=true")
+client = MongoClient("")
 db = client.Raspberry
 Pictures = db.Pictures
 Adafruit = db.Adafruit
